@@ -13,7 +13,7 @@ const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDesc
 client.on('ready', () => {
   console.log(BOT_NAME + ` est opérationnel !`);
   client.channels.cache.get('864953618938986516').send( '**' + BOT_NAME + '** est opérationnel !');
-  client.user.setActivity(' channel', {type: 'LISTENING'});
+  client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
 }); 
 
 client.on('guildMemberAdd', member => {
