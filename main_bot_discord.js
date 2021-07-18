@@ -3,7 +3,7 @@ const client = new Discord.Client();
 
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
-const BOT_ID = procces.env.BOT_ID;
+const BOT_ID = process.env.BOT_ID;
 const BOT_MENTION = '<@' + BOT_ID + '>';
 const BOT_PREFIX = process.env.BOT_PREFIX;
 const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
