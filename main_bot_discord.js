@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
 
-const BOT_DISCRIMINATOR = '5321';
-const BOT_NAME = 'Auxilium';
-const BOT_ID = '864899752007827478';
+const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
+const BOT_NAME = process.env.BOT_NAME;
+const BOT_ID = procces.env.BOT_ID;
 const BOT_MENTION = '<@' + BOT_ID + '>';
 const BOT_PREFIX = process.env.BOT_PREFIX;
 const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
@@ -53,10 +53,9 @@ client.channels.cache.get('864953618938986516').send('**' + message.author.usern
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
-   if (message.author.id !== '754229847206658160') {const errEmbededMessage = new Discord.MessageEmbed()
-   .setColor('#FF0000')
-   .setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
-   message.channel.send(errEmbededMessage);} else {
+   if (message.author.id !== '754229847206658160') {const notAuthorizedEmbededMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
+   console.log(message.author.username + "a essayé d'utiliser la commande ping.");
+   message.channel.send(notAuthorizedEmbededMessage);} else {
    message.react('🏓');
    message.channel.send('pong !');
   }};
