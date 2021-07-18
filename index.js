@@ -23,7 +23,8 @@ member.roles.add('864898505470377984');
 client.on('message', message => {
 if (!message.content.startsWith(BOT_PREFIX) || message.author.bot) return;
 if (message.channel.type !== 'text' && message.author.id !== '754229847206658160') return;
-let mention = message.mentions.members.first();
+let mentionUser = message.mentions.members.first();
+let mentionChannel = message.mentions.channels.first();
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
@@ -31,7 +32,7 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
     client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
-    console.log('Commande HELP utilisée');
+    console.log('Commande HELP utilisée par ' + message.author.username + ' à : ' + message.createdAt);
      }).catch(err => {
      message.channel.send("Échec de l'envoi du DM ou de la console d' éxécution : " + err);
      });
@@ -39,24 +40,27 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 
 //iduser
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
-if (mention == undefined) {
-   client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
-    message.channel.send('Votre id est __' + message.author.id + '__, **' + message.author.username + '**.'); } else {
-    client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
-    message.channel.send("L'id de " + mention.displayName + " est :__" + mention.id + "__.");
+if (mentionUser == undefined) {
+  message.channel.send('Utilisateur non ou mal mentionné');
+    } else {
+    console.log(message.author.username + ' a utilisé la commande iduser pour ' + mentionUser.displayName + ' à : ' + message.createdAt);
+    message.channel.send("L'id de **" + mentionUser.displayName + "** est :__" + mentionUser.id + "__.");
     }
     };
 
 //idchannel
 if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
-client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
-    message.channel.send('**'+ message.author.username+'**'+', '+"l'id de ce salon est __"+ message.channel.id +'__.');
+  if (mentionChannel == undefined) {
+    message.channel.send('Salon non ou mal mentionné');
+  } else {
+    console.log(message.author.username + " a demandé l'ID de " + mentionChannel.displayName + ' à : ' + message.createdAt);
+    message.channel.send("L'id de **" + mentionChannel.displayName + "** est : __" + mentionChannel.id + '__ .');
 }
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
    if (message.author.id !== '754229847206658160') {const notAuthorizedEmbededMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
-   console.log(message.author.username + "a essayé d'utiliser la commande ping.");
+   console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
    message.channel.send(notAuthorizedEmbededMessage);} else {
    message.react('🏓');
    message.channel.send('pong !');
