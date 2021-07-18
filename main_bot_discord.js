@@ -5,13 +5,13 @@ const BOT_DISCRIMINATOR = '5321';
 const BOT_NAME = 'Auxilium';
 const BOT_ID = '864899752007827478';
 const BOT_MENTION = '<@' + BOT_ID + '>';
-const BOT_PREFIX = '$';
+const BOT_PREFIX = process.env.BOT_PREFIX;
 const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
 
 
 client.on('ready', () => {
   console.log(BOT_NAME + ` est opérationnel !`);
-  client.channels.cache.get('864953618938986516').send( '**' + BOT_NAME + '** est oépationnel !');
+  client.channels.cache.get('864953618938986516').send( '**' + BOT_NAME + '** est opérationnel !');
 }); 
 
 client.on('guildMemberAdd', member => {
