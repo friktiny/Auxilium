@@ -1,0 +1,14 @@
+{
+	"name": "Auxilium",
+	"version": "2.0.0",
+	"description": "My Discord bot!",
+	"main": "main_bot_discord.js",
+     "scripts" : {
+        "start" : "node main_bot_discord.js"
+    },
+	"author": "Nat76/Nat76#3958",
+	"license": "ISC",
+    "dependencies" : {
+        "discord.js" : "^12.3.1"
+    }
+}
