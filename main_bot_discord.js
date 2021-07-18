@@ -5,7 +5,6 @@ const BOT_DISCRIMINATOR = '5321';
 const BOT_NAME = 'Auxilium';
 const BOT_ID = '864899752007827478';
 const BOT_MENTION = '<@' + BOT_ID + '>';
-const BOT_TOKEN = 'ODY0ODk5NzUyMDA3ODI3NDc4.YO8KqQ.859_elrwtH_7Elx15MPzHp6PArI';
 const BOT_PREFIX = '$';
 const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
 
