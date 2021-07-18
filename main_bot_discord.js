@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const configuration = require('package.json');
 const client = new Discord.Client();
 
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
