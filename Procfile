@@ -1,1 +1,1 @@
-worker : npm start
+worker : main_bot_discord.js
