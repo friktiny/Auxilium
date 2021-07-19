@@ -56,7 +56,7 @@ function playMusic(connection) {
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
-const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor(message.author.username, message.author.displayAvatarURL()).setDescription("Voici toute les commandes actuellement disponible :\n**Musique**\nPlay [Lien YouTube]: Rejoint un salon vocal et lance la vidéo du lien inscrit.\nPause : Met en pause la vidéo.\n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.").addField('Préfixe du bot :', BOT_PREFIX, true).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
+const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor(message.author.username, message.author.displayAvatarURL()).setDescription("Voici toute les commandes actuellement disponible :\n**Musique**\nPlay [Lien YouTube]: Rejoint un salon vocal et lance la vidéo du lien inscrit." +/*\nPause : Met en pause la vidéo.*/ "\n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, true}, { name : "Région d'hébergement du bot :", value:'Europe', true}).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
     client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
@@ -135,7 +135,6 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
       };
   };
 
-
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
    if (message.author.id !== '754229847206658160') {
@@ -145,7 +144,7 @@ if (message.content == BOT_PREFIX + 'ping') {
   } else {
    const timeTaken = Date.now() - message.createdTimestamp;
    message.react('🏓');
-   message.channel.send('pong !\n`${timeTaken}`ms');
+   message.channel.send('pong !\n`' + timeTaken + 'ms`');
   }};
 
   });
