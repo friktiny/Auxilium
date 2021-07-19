@@ -75,9 +75,19 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
   if (message.content.startsWith(BOT_PREFIX + 'play')) {
     if (message.member.voice.channel) {
       message.member.voice.channel.join().then(connection => {
-        
+        let dispatcher = connection.play(ytdl(args[1], { quality: 'highestaudio'}));
+
+        dispatcher.on('finish', () => {
+      dispatcher.destroy();
+      connection.disconnect();
+        });
+
+        dispatcher.on('error', err => {
+          message.channel.send('Erreur du dispatcheur : ' + err);
+        });
       }).catch(err => {
         message.reply("Je n'ai pas réussi à me connecter : " + err);
+      });
     } else {
     message.reply('**connecte-toi en vocal**');
     }
