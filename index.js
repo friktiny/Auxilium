@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const ytdl = require('ytdl-core');
 const configuration = require('./package.json');
 const client = new Discord.Client();
+client.login(process.env.BOT_TOKEN);
 
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
@@ -66,13 +67,14 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 };
 
 //disconnect
-if (message.content == BOT_PREFIX + 'stop') {
+if (message.content == BOT_PREFIX + 'restart') {
   if (message.author.id !== '754229847206658160') {
     message.channel.send(notAuthorizedEmbededMessage);
   } else {
     message.reply('Client en extinction.');
     console.log('Client éteint à ' + message.createdAt);
     client.destroy();
+    client.login(process.env.BOT_TOKEN);
   }
 }
 
@@ -145,4 +147,3 @@ if (message.content == BOT_PREFIX + 'ping') {
   }};
 
   });
-client.login(process.env.BOT_TOKEN);
