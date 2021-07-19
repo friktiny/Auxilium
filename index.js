@@ -7,7 +7,7 @@ const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 const BOT_MENTION = '<@' + BOT_ID + '>';
 const BOT_PREFIX = process.env.BOT_PREFIX;
-const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
+const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message :\n" + err);
 
 
 client.on('ready', () => {
@@ -25,6 +25,7 @@ if (!message.content.startsWith(BOT_PREFIX) || message.author.bot) return;
 if (message.channel.type !== 'text' && message.author.id !== '754229847206658160') return;
 let mentionUser = message.mentions.members.first();
 let mentionChannel = message.mentions.channels.first();
+let args = message.content.split(' ');
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
@@ -36,7 +37,7 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
      }).catch(err => {
      message.channel.send("Échec de l'envoi du DM ou de la console d' éxécution : " + err);
      });
-}
+};
 
 //iduser
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
@@ -55,7 +56,20 @@ if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
   } else {
     console.log(message.author.username + " a demandé l'ID de " + mentionChannel.displayName + ' à : ' + message.createdAt);
     message.channel.send("L'id de **" + mentionChannel.displayName + "** est : __" + mentionChannel.id + '__ .');
-}
+};
+  
+//suggestion [argument]
+if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
+  if (args == undefined) {
+    message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets en chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
+  } else {
+    console.log(args[1]).then(channel => {
+      channel.send('Message envoyé avec succès !')
+    }).catch(err => {
+      message.channel.send(ErrorEmbedMessage);
+    });
+  };
+  
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
