@@ -64,8 +64,8 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
   if (args == undefined) {
     message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets en chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
   } else {
-    console.log(args[1]).then(channel => {
-      channel.send('Message envoyé avec succès !')
+  return console.log(args[1]).then(channel => {
+      message.channel.send('Message envoyé avec succès !')
     }).catch(err => {
       message.channel.send(ErrorEmbedMessage + err);
     });
