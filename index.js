@@ -8,6 +8,7 @@ const BOT_ID = process.env.BOT_ID;
 const BOT_MENTION = '<@' + BOT_ID + '>';
 const BOT_PREFIX = process.env.BOT_PREFIX;
 const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
+const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('0, 1, 0').setDescription('Message envoyé avec succès !');
 
 
 client.on('ready', () => {
@@ -64,11 +65,8 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
   if (args == undefined) {
     message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets en chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
   } else {
-  return console.log(args[1]).then(channel => {
-      message.channel.send('Message envoyé avec succès !')
-    }).catch(err => {
-      message.channel.send(ErrorEmbedMessage + err);
-    });
+     console.log(args[1]);
+     message.channel.send(SuccessEmbedMessage);
   };
 }
 
