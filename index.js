@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const ytdl = require('ytdl-core');
 const configuration = require('./package.json');
 const client = new Discord.Client();
 
@@ -69,6 +70,18 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
      message.channel.send(SuccessEmbedMessage);
   };
 }
+  
+//play [argument]
+  if (message.content.startsWith(BOT_PREFIX + 'play')) {
+    if (message.member.voice.channel) {
+      message.member.voice.channel.join().then(connection => {
+        
+      }).catch(err => {
+        message.reply("Je n'ai pas réussi à me connecter : " + err);
+    } else {
+    message.reply('**connecte-toi en vocal**');
+    }
+  };
 
 
 //ping
