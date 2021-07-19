@@ -28,6 +28,30 @@ if (message.channel.type !== 'text' && message.author.id !== '754229847206658160
 let mentionUser = message.mentions.members.first();
 let mentionChannel = message.mentions.channels.first();
 let args = message.content.split(' ');
+var list = [];
+
+function playMusic(connection) {
+  let dispatcher = connection.play(ytdl(list[0], {quality: 'highestaudio'}));
+
+  dispatcher.on('finish', () => {
+   list.shift();
+   dispatcher.destroy();
+
+   if (list.length > 0) {
+     playMusic(connection);
+   } else {
+     connection.disconnect();   
+    }
+
+  });
+
+  dispatcher.on('error', err => {
+    console.log('Erreur du dispatcher : ' + err);
+    client.guilds.channel.cache.get('864850399813828648').send('Erreur du dispatcher : ' + err);
+    dispatcher.destroy();
+    connection.disconnect();
+  })
+}
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
@@ -40,6 +64,17 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
      message.channel.send("Échec de l'envoi du DM ou de la console d' éxécution : " + err);
      });
 };
+
+//disconnect
+if (message.content == BOT_PREFIX + 'stop') {
+  if (message.author.id !== '754229847206658160') {
+    message.channel.send(notAuthorizedEmbededMessage);
+  } else {
+    message.reply('Client en extinction.');
+    console.log('Client éteint à ' + message.createdAt);
+    client.destroy();
+  }
+}
 
 //iduser [Mention]
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
@@ -56,7 +91,7 @@ if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
   if (mentionChannel == undefined) {
     message.channel.send('Salon non ou mal mentionné');
   } else {
-    console.log(message.author.username + " a demandé l'ID de " + mentionChannel.name + ' à : ' + message.createdAt);
+    console.log(message.author.username + " a demandé l'ID de " + mentionChannel.displayName + ' à : ' + message.createdAt);
     message.channel.send("L'id de **" + mentionChannel.name + "** est : __" + mentionChannel.id + '__ .');
   };
 }
@@ -74,31 +109,37 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
 //play [argument]
   if (message.content.startsWith(BOT_PREFIX + 'play')) {
     if (message.member.voice.channel) {
-      message.member.voice.channel.join().then(connection => {
-        let dispatcher = connection.play(ytdl(args[1], { quality: 'highestaudio'}));
+      if (args[1] == undefined || !args[1].startsWith('https://www.youtube.com/watch?')) {
+        message.reply("tu n'as pas ou tu as mal saisi le lien YouTube.");
+      } else {
+        if (list.length > 0) {
+          list.push(args[1]);
+          message.reply("t'a vidéo à été ajouté à la liste !");
+        } else {
+          list.push(args[1]);
+          message.reply("t'a vidéo à été ajouté à la liste !");
+          message.member.voice.channel.join().then(connection => {
+          playMusic(connection);  
 
-        dispatcher.on('finish', () => {
-      dispatcher.destroy();
-      connection.disconnect();
-        });
-
-        dispatcher.on('error', err => {
-          message.channel.send('Erreur du dispatcheur : ' + err);
-        });
-      }).catch(err => {
-        message.reply("Je n'ai pas réussi à me connecter : " + err);
-      });
-    } else {
-    message.reply('**connecte-toi en vocal**');
-    }
+          connection.on('disconnect', () => {
+            list = [];
+          });
+          }).catch(err => {
+          message.reply("je n'ai pas pu me connecter : " + err);
+          });
+        }
+      };
+      };
   };
 
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
-   if (message.author.id !== '754229847206658160') {const notAuthorizedEmbededMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
-   console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
-   message.channel.send(notAuthorizedEmbededMessage);} else {
+   if (message.author.id !== '754229847206658160') {
+    const notAuthorizedEmbededMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
+    console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
+    message.channel.send(notAuthorizedEmbededMessage);
+  } else {
    message.react('🏓');
    message.channel.send('pong !');
   }};
