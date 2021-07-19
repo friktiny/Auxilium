@@ -66,15 +66,16 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
      });
 };
 
-//disconnect
+//restart
 if (message.content == BOT_PREFIX + 'restart') {
   if (message.author.id !== '754229847206658160') {
     message.channel.send(notAuthorizedEmbededMessage);
   } else {
-    message.reply('Client en extinction.');
+    message.channel.send('Redémarrage...');
     console.log('Client éteint à ' + message.createdAt);
     client.destroy();
     client.login(process.env.BOT_TOKEN);
+    message.channel.send('Bot redémmaré avec succès !');
   }
 }
 
@@ -142,8 +143,9 @@ if (message.content == BOT_PREFIX + 'ping') {
     console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
     message.channel.send(notAuthorizedEmbededMessage);
   } else {
+   const timeTaken = Date.now() - message.createdTimestamp;
    message.react('🏓');
-   message.channel.send('pong !');
+   message.channel.send('pong !\n`' + timeTaken + '`');
   }};
 
   });
