@@ -56,8 +56,9 @@ if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
   } else {
     console.log(message.author.username + " a demandé l'ID de " + mentionChannel.displayName + ' à : ' + message.createdAt);
     message.channel.send("L'id de **" + mentionChannel.displayName + "** est : __" + mentionChannel.id + '__ .');
-};
-  
+  };
+}
+
 //suggestion [argument]
 if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
   if (args == undefined) {
@@ -69,7 +70,8 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
       message.channel.send(ErrorEmbedMessage);
     });
   };
-  
+}
+
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
