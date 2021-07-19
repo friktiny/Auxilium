@@ -1,14 +1,18 @@
 {
-	"name": "Auxilium",
-	"version": "0.7.4",
-	"description": "My Discord bot!",
-	"main": "index.js",
-     "scripts" : {
-        "start" : "node index.js"
+    "name": "auxilium",
+    "version": "0.7.4",
+    "description": "My Discord bot!",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
     },
-	"author": "Nat76/Nat76#3958",
-	"license": "ISC",
-    "dependencies" : {
-        "discord.js" : "^12.5.3"
+    "author": "Nat76/Nat76#3958",
+    "license": "ISC",
+    "dependencies": {
+        "@discordjs/opus": "^0.5.3",
+        "discord.js": "^12.5.3",
+        "ffmpeg-static": "^4.4.0",
+        "opusscript": "0.0.8",
+        "ytdl-core": "^4.8.3"
     }
 }
