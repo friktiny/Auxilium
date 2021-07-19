@@ -7,7 +7,7 @@ const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 const BOT_MENTION = '<@' + BOT_ID + '>';
 const BOT_PREFIX = process.env.BOT_PREFIX;
-const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message :\n" + err);
+const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
 
 
 client.on('ready', () => {
@@ -67,7 +67,7 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
     console.log(args[1]).then(channel => {
       channel.send('Message envoyé avec succès !')
     }).catch(err => {
-      message.channel.send(ErrorEmbedMessage);
+      message.channel.send(ErrorEmbedMessage + err);
     });
   };
 }
