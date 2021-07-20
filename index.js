@@ -74,6 +74,7 @@ if (message.content == BOT_PREFIX + 'restart') {
     client.destroy();
     client.login(process.env.BOT_TOKEN);
     message.channel.send('Bot redémmaré avec succès !');
+    client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
   }
 }
 
