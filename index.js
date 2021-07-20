@@ -92,7 +92,7 @@ if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
   if (mentionChannel == undefined) {
     message.channel.send('Salon non ou mal mentionné');
   } else {
-    console.log(message.author.username + " a demandé l'ID de " + mentionChannel.displayName + ' à : ' + message.createdAt);
+    console.log(message.author.username + " a demandé l'ID de " + mentionChannel.name + ' à : ' + message.createdAt);
     message.channel.send("L'id de **" + mentionChannel.name + "** est : __" + mentionChannel.id + '__ .');
   };
 }
