@@ -58,6 +58,7 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
     client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
+     message.delete();
     console.log('Commande HELP utilisée par ' + message.author.username + ' à : ' + message.createdAt);
      }).catch(err => {
      message.channel.send("Échec de l'envoi du DM ou de la console d' éxécution : " + err);
