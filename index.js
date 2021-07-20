@@ -43,9 +43,8 @@ function playMusic(connection) {
    } else {
      connection.disconnect();   
     }
-
   });
-
+}
   dispatcher.on('error', err => {
     console.log('Erreur du dispatcher : ' + err);
     client.guilds.channel.cache.get('864850399813828648').send('Erreur du dispatcher : ' + err);
