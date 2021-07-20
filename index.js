@@ -4,6 +4,12 @@ const configuration = require('./package.json');
 const client = new Discord.Client();
 client.login(process.env.BOT_TOKEN);
 
+function StartingBot() {
+console.log('Auxilium est opérationnel !');
+client.guilds.channels.get('864953618938986516').send('**' + BOT_NAME + '** est opérationnel !');
+client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
+}
+
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
@@ -14,9 +20,7 @@ const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDe
 
 
 client.on('ready', () => {
-  console.log(BOT_NAME + ` est opérationnel !`);
-  client.channels.cache.get('864953618938986516').send( '**' + BOT_NAME + '** est opérationnel !');
-  client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
+  StartingBot();
 }); 
 
 client.on('guildMemberAdd', member => {
@@ -73,9 +77,9 @@ if (message.content == BOT_PREFIX + 'restart') {
     console.log('Client éteint à ' + message.createdAt);
     client.destroy();
     client.login(process.env.BOT_TOKEN);
+    StartingBot();
     message.channel.send('Bot redémmaré avec succès !');
-    client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
-  }
+    }
 }
 
 //iduser [Mention]
