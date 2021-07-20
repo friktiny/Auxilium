@@ -6,7 +6,7 @@ client.login(process.env.BOT_TOKEN);
 
 function StartingBot() {
 console.log('Auxilium est opérationnel !');
-client.guilds.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** est opérationnel !');
+client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** est opérationnel !');
 client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
 }
 
