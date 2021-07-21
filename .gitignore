@@ -3,3 +3,4 @@ node_modules/
 opusscript/
 ytdl-core/
 ffmpeg-static/
+FFmpeg/avconv/
