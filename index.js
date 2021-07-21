@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const configuration = [require('./package.json'), require('./launch.json')];
+const configuration = require('./package.json');
 const client = new Discord.Client();
 const BOT_TOKEN = process.env.BOT_TOKEN;
 client.login(BOT_TOKEN).then(() => {
