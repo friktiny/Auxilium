@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const ytdl = require('ytdl-core');
 const configuration = [require('./package.json'), require('./launch.json')];
 const client = new Discord.Client();
 const BOT_TOKEN = process.env.BOT_TOKEN;
