@@ -1,12 +1,12 @@
 const Discord = require("discord.js");
 const ytdl = require('ytdl-core');
-const configuration = [require('./package_test.json'), require('./.vscode/launch _test.json')];
+const configuration = [require('./package.json'), require('./launch.json')];
 const client = new Discord.Client();
 const BOT_TOKEN = process.env.BOT_TOKEN;
 client.login(BOT_TOKEN).then(() => {
   client.on('ready', () => {
    console.log('Auxilium est opérationnel !');
-   client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** est opérationnel !\nLien :\nhttps://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=video&cd=&cad=rja&uact=8&ved=2ahUKEwjb_sLGvfLxAhXE3oUKHQq1DB0QtwIwAXoECAUQAw&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D7wtfhZwyrcc&usg=AOvVaw3U-65bSLgRudWYu3blLxwp\nhttps://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=video&cd=&cad=rja&uact=8&ved=2ahUKEwip8abqvfLxAhWkyoUKHWMUCmcQtwIwAnoECAkQAw&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DALZHF5UqnU4&usg=AOvVaw15pEH_fhmGisjqT-M4SxJg\nhttps://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjSlqvDvfLxAhXU3oUKHYAJB24QyCkwAHoECAIQAw&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DLDU_Txk06tM&usg=AOvVaw3TOk4o_GkDuODqTByNP2WP');
+   client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** est opérationnel !');
    client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
    }); 
 });
@@ -31,33 +31,10 @@ let mentionChannel = message.mentions.channels.first();
 let args = message.content.split(' ');
 //var notes = [];
 //let endMessage = args[0] + args[1];
-var list = [];
-
-function playMusic(connection) {
-  let dispatcher = connection.play(ytdl(list[0], {quality: 'highestaudio'}));
-  message.channel.send(':arrow_forward:**Joue ' + list[0] + '**.');
-
-  dispatcher.on('finish', () => {
-   list.shift();
-   dispatcher.destroy();
-
-   if (list.length > 0) {
-     playMusic(connection);
-   } else {
-     connection.disconnect();   
-    }
-  });
-  dispatcher.on('error', err => {
-    console.log('Erreur du dispatcher : ' + err);
-    client.guilds.channel.cache.get('864850399813828648').send('Erreur du dispatcher : ' + err);
-    dispatcher.destroy();
-    connection.disconnect();
-  });
-}
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
-const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor(message.author.username, message.author.displayAvatarURL()).setDescription("Voici toute les commandes actuellement disponible :\n**Musique**\nPlay [Lien YouTube]: Rejoint un salon vocal et lance la vidéo du lien inscrit." +/*\nPause : Met en pause la vidéo.*/ "\n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, inline : true }, { name : "Région d'hébergement du bot :", value:'Europe', inline :  true }).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
+const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor(message.author.username, message.author.displayAvatarURL()).setDescription("Voici toute les commandes actuellement disponible : \n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, inline : true }, { name : "Région d'hébergement du bot :", value:'Europe', inline :  true }).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
     client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
@@ -111,40 +88,7 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
   };
 };
 
-//play [argument]
-  if (message.content.startsWith(BOT_PREFIX + 'play')) {
-    if (message.member.voice.channel) {
-      if (args[1] == undefined || !args[1].startsWith('https://www.youtube.com/watch?')) {
-        message.reply("tu n'as pas ou tu as mal saisi le lien YouTube.");
-      } else {
-        if (list.length > 0) {
-          list.push(args[1]);
-          message.reply("t'a vidéo à été ajouté à la liste !");
-        } else {
-          list.push(args[1]);
-          message.reply("t'a vidéo à été ajouté à la liste !");
-          message.member.voice.channel.join().then(connection => {
-            message.channel.send(':white_check_mark: **Salon rejoint avec succès !**');
-            playMusic(connection);  
-            connection.on('disconnect', () => {
-            list = [];
-          });
-          });
-        };
-      };
-      } else {
-        return message.channel.send("Connecte-toi d'abord à un salon vocal avant d'utiliser cette commande !");
-      };
-  };
 
-/*// leave
-if (message.content == BOT_PREFIX + 'leave') {
-  if (client.user.voice.channel) {
-    Discord.VoiceState.disconnect();
-  } else {
-    message.react('❓');
-  }
-}*/
 /*//addnote [argument]
 if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
   if(message.author.id !=='754229847206658160') {
