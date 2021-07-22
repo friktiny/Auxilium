@@ -1,0 +1,13 @@
+{
+  "name" : "LICENSE",
+  "version" : "0.4.9",
+  "description" :"Back-end of my license",
+  "scripts" : {
+  "start" : "node website.js"
+  },
+  "dependencies" : {
+    "express" : ""
+  },
+  "author" : "Nat76#3958",
+  "license" : "ISC"
+}
