@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const configuration = require('./package.json');
+const configuration = require('./package1.json');
 var port = process.env.PORT || 80
 const client = new Discord.Client();
 const BOT_TOKEN = process.env.BOT_TOKEN;
