@@ -1,1 +1,6 @@
-[README.md](https://github.com/Nat76G33K/Auxilium/files/6861921/README.md)
+# Auxilium
+MultiPurpose Discord Bot BETA
+These files controls the Discord bot Auxilium#5321 own by Nat76#3958.
+This bot is not public.
+
+Contact : [nat76geek@gmail.com](nat76geek@gmail.com).
