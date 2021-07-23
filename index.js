@@ -14,8 +14,7 @@ const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 const BOT_PREFIX = process.env.BOT_PREFIX;
-const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription("Erreur lors de l'envoi du message.");
-const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription('Message envoyé avec succès !');
+
 
 
 client.on('guildMemberAdd', member => {
@@ -27,14 +26,17 @@ if (!message.content.startsWith(BOT_PREFIX) || message.author.bot) return;
 if (message.channel.type !== 'text' && message.author.id !== '754229847206658160') return;
 let mentionUser = message.mentions.members.first();
 let mentionChannel = message.mentions.channels.first();
+let mentionRole = message.mentions.roles.first();
 let args = message.content.split(' ');
+var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
+const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Erreur lors de l'envoi du message.**");
+const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Message envoyé avec succès !**');
 //var notes = [];
 //let endMessage = args[0] + args[1];
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
 const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').setDescription("Voici toute les commandes actuellement disponible : \n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, inline : true }, { name : "Région d'hébergement du bot :", value:'Europe', inline :  true }).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
-    client.channels.cache.get('864953618938986516').send('**' + message.author.username + '** a utilisé ' + message.content + ' dans __' + message.channel.name + '__.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
      message.delete();
@@ -57,7 +59,7 @@ if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
 
 //restart
 if (message.content == BOT_PREFIX + 'restart') {
-  if (message.author.id !== '754229847206658160') {
+  if (!message.member.hasPermission('ADMINISTRATOR' || 'MANAGE_GUILD')) {
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
     message.channel.send('Redémarrage...');
@@ -136,19 +138,13 @@ if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
-   if (message.author.id !== '754229847206658160') {
-    const notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
+   if (!message.member.hasPermission('ADMINISTRATOR' || 'MANAGE_GUILD')) {
     console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
-   const timeTaken = Date.now() - message.createdTimestamp;
-   message.react('🏓');
-   message.channel.send('pong !\n`' + timeTaken + 'ms`');
+    const timeTaken = Date.now() - message.createdTimestamp;
+    message.react('🏓');
+    message.channel.send('pong !\n`' + timeTaken + 'ms`');
   }};
 
   });
-
-client.on('error', err => {
-  client.channels.cache.get('864953618938986516').send('**Erreur** : ' + err);
-  console.log('Erreur, ' + err);
-});
