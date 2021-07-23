@@ -47,10 +47,10 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 //avatar [argument]
 if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   if (mentionUser == undefined) {
-    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size:'1024', dynamic: true})).setColor('#00ffff');
+    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 1024, dynamic: true})).setColor('#00ffff');
     message.channel.send(avatarMySelfEmbedMessage);
   } else {
-    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: '1024', dynamic: true})).setColor('#00ffff');
+    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 1024, dynamic: true})).setColor('#00ffff');
     message.channel.send(avatarYourSelfEmbedMessage);
   }
 }
