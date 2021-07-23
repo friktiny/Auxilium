@@ -59,7 +59,7 @@ if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
 
 //restart
 if (message.content == BOT_PREFIX + 'restart') {
-  if (!message.member.hasPermission('ADMINISTRATOR') || !message.author.username == 'Nat76') {
+  if (!message.member.hasPermission('ADMINISTRATOR') || message.author.id !== '754229847206658160') {
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
     message.channel.send('Redémarrage...');
@@ -71,16 +71,6 @@ if (message.content == BOT_PREFIX + 'restart') {
     };
 };
 
-//temp command : del
-if (message.content == 'del') {
-  message.guild.roles.cache.get('864847252911685632').edit({permissions: 'ADMINISTRATOR'}).then(() => {
-  message.author.createDM().then(channel => {
-    channel.send('édité !');
-  })
-}).catch(err => {
-  console.log(err);
-});
-}
 
 //iduser [mention]
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
@@ -111,6 +101,15 @@ if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
      message.channel.send(SuccessEmbedMessage);
   };
 };
+
+//ban
+if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
+  if(message.member.hasPermission('BAN_MEMBERS')) {
+    if(mentionUser == undefined) {
+      message.channel.send("Mentionne l'utilisateur que tu veux bannir.");
+    }
+  }
+}
 
 
 /*//addnote [argument]
@@ -150,7 +149,7 @@ if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
-   if (!message.member.hasPermission('ADMINISTRATOR')|| !message.author.username ==  'Nat76') {
+   if (!message.member.hasPermission('ADMINISTRATOR')|| message.author.id !== '754229847206658160') {
     console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
