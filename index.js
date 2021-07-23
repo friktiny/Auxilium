@@ -59,7 +59,7 @@ if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
 
 //restart
 if (message.content == BOT_PREFIX + 'restart') {
-  if (!message.member.hasPermission('ADMINISTRATOR' || 'MANAGE_GUILD')) {
+  if (!message.member.hasPermission('ADMINISTRATOR') || !message.author.username == 'Nat76') {
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
     message.channel.send('Redémarrage...');
@@ -150,7 +150,7 @@ if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
-   if (!message.member.hasPermission('ADMINISTRATOR')|| !message.member.hasPermission('MANAGE_GUILD')) {
+   if (!message.member.hasPermission('ADMINISTRATOR')|| !message.author.username ==  'Nat76') {
     console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
