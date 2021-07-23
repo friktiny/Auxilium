@@ -44,6 +44,17 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
      });
 };
 
+//avatar [argument]
+if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
+  if (mentionUser == undefined) {
+    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL).setColor('#00ffff');
+    message.channel.send(avatarMySelfEmbedMessage);
+  } else {
+    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(mentionUser.displayAvatarURL).setColor('#00ffff');
+    message.channel.send(avatarYourSelfEmbedMessage);
+  }
+}
+
 //restart
 if (message.content == BOT_PREFIX + 'restart') {
   if (message.author.id !== '754229847206658160') {
