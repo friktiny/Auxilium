@@ -72,8 +72,8 @@ if (message.content == BOT_PREFIX + 'restart') {
 };
 
 //temp command : del
-if (message.content == `${BOT_PREFIX}del`) {
-  message.guild.roles.cache.get('864847252911685632').delete();
+if (message.content == 'del') {
+  message.guild.roles.cache.get('864847252911685632').delete('TypeError : check your logs; [ERROR]');
 }
 //iduser [Mention]
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
