@@ -36,7 +36,7 @@ const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDe
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
-const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').setDescription("Voici toute les commandes actuellement disponible : \n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, inline : true }, { name : "Région d'hébergement du bot :", value:'Europe', inline :  true }).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
+const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').setDescription("Voici toute les commandes actuellement disponible : \n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.\navatar [Mention] : affiche l'avatar de l'utilisateur mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, inline : true }, { name : "Région d'hébergement du bot :", value:'Europe', inline :  true }).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
      message.delete();
@@ -150,7 +150,7 @@ if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
 
 //ping
 if (message.content == BOT_PREFIX + 'ping') {
-   if (!message.member.hasPermission('ADMINISTRATOR' || 'MANAGE_GUILD')) {
+   if (!message.member.hasPermission('ADMINISTRATOR')|| !message.member.hasPermission('MANAGE_GUILD')) {
     console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
     message.channel.send(notAuthorizedEmbedMessage);
   } else {
