@@ -66,10 +66,15 @@ if (message.content == BOT_PREFIX + 'restart') {
     console.log('Client redémmaré à ' + message.createdAt);
     client.destroy();
     client.login(BOT_TOKEN);
+    message.delete();
     message.channel.send('Bot redémmaré avec succès !');
     };
 };
 
+//temp command : del
+if (message.content == 'del') {
+  message.guild.roles.cache.get('864898505470377984').delete();
+}
 //iduser [Mention]
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
 if (mentionUser == undefined) {
