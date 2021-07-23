@@ -50,7 +50,7 @@ if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
     var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL()).setColor('#00ffff');
     message.channel.send(avatarMySelfEmbedMessage);
   } else {
-    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(mentionUser.displayAvatarURL()).setColor('#00ffff');
+    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL()).setColor('#00ffff');
     message.channel.send(avatarYourSelfEmbedMessage);
   }
 }
