@@ -107,8 +107,9 @@ if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
   if(message.member.hasPermission('BAN_MEMBERS')) {
     if(mentionUser == undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux bannir.");
-    } else {
-      if (mentionUser.bannable) {
+    } else if(args[2] == undefined){
+      message.channel.send('Argument manquant');
+    } else if (mentionUser.bannable) {
         mentionUser.ban({days : args[2], reason : args[3,4,5,6,7,8,9,10,11,12,13]}).then(user => {
           message.channel.send(`@${mentionUser.displayName} à été banni.`);
           message.delete();
@@ -124,7 +125,6 @@ if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
       } else {
         message.reply(`tu ne peux pas bannir ${mentionUser.displayName} !`);
       }
-    }
   } else {
     message.channel.send(notAuthorizedEmbedMessage);
   }
@@ -134,6 +134,8 @@ else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
   if (message.member.hasPermission('KICK_MEMBERS')) {
     if (mentionUser == undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux exclure.");
+    } else if(args[3] == undefined) {
+      message.channel.send('Argument manquant.');
     } else if (mentionUser.kickable) {
       mentionUser.kick(args[2,3,4,5,6,7,8,9,10,11,12]).then(user => {
         message.channel.send(`${mentionUser.displayName} à été exclu.`);
