@@ -18,7 +18,7 @@ const BOT_PREFIX = process.env.BOT_PREFIX;
 
 
 client.on('guildMemberAdd', member => {
-member.roles.add('864898505470377984');
+member.roles.add('Joueur');
 });
 
 client.on('message', message => {
@@ -107,10 +107,98 @@ if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
   if(message.member.hasPermission('BAN_MEMBERS')) {
     if(mentionUser == undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux bannir.");
+    } else {
+      if (mentionUser.bannable) {
+        mentionUser.ban({days : args[2], reason : args[3,4,5,6,7,8,9,10,11,12,13]}).then(user => {
+          message.channel.send(`@${mentionUser.displayName} à été banni.`);
+          message.delete();
+          message.channel.lastMessage.delete({timeout : 5000});
+          message.guild.channels.cache.find(ChannelName => ChannelName.name == 'général').send(`${mentionUser.displayName} à joué avec le feu, et s'est brulé.`);
+          user.createDM().then(channel => {
+            channel.send('Tu as été banni du serveur ' + message.guild.name + ' : ' + args[3,4,5,6,7,8,9,10,11,12,13] + '\nTu pourras réintégrer le serveur dans ' + args[2] + ' jours.');
+          });
+        }).catch(err => {
+          message.channel.send(':x: **Erreur**, ' + err);
+          console.log(err);
+        });
+      } else {
+        message.reply(`tu ne peux pas bannir ${mentionUser.displayName} !`);
+      }
+    }
+  } else {
+    message.channel.send(notAuthorizedEmbedMessage);
+  }
+}
+//kick
+else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
+  if (message.member.hasPermission('KICK_MEMBERS')) {
+    if (mentionUser == undefined) {
+      message.channel.send("Mentionne l'utilisateur que tu veux exclure.");
+    } else if (mentionUser.kickable) {
+      mentionUser.kick(args[2,3,4,5,6,7,8,9,10,11,12]).then(user => {
+        message.channel.send(`${mentionUser.displayName} à été exclu.`);
+        message.delete();
+        message.channel.lastMessage.delete({timeout : 5000});
+        message.guild.channels.cache.find(ChannelName => ChannelName.name == 'général').send(`${mentionUser.displayName} s'est trop penché par la fenètre et est tombé !\nHeuresement qu'il avait son parachute !`);
+        user.createDM().then(channel => {
+          channel.send(`Tu as été banni du serveur ${message.guild.name} : ${args[2,3,4,5,6,7,8,9,10,11,12]}\nTu peux revenir quand tu veux !\n||Il faut juste que tu trouves un (autre) lien…||`);
+        });
+      }).catch(err => {
+        message.channel.send(':x: **Erreur**, ' + err);
+      });
+    } else {
+      message.reply(`tu ne peux pas bannir ${mentionUser.displayName}`);
     }
   }
 }
-
+//mute
+else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
+  if (message.member.hasPermission('MUTE_MEMBERS')) {
+    if (mentionUser = undefined) {
+      message.channel.send("Mentionne l'utilisateur que tu veux rendre muet.");
+    } else if (mentionUser.kickable) {
+      mentionUser.guild.roles.create({
+        data: {
+          name: 'Muted',
+          color: 'BLACK',
+          permissions: '',
+        }
+      }).then(() => {
+        var muteRole = message.guild.roles.find(role => role.name === 'Muted');
+        global.muteRole;
+        mentionUser.roles.add(muteRole);
+        mentionUser.voice.setMute(true, `Muted by ${message.author.username}`);
+        mentionUser.roles.remove();
+        message.reply(`${mentionUser.displayName} à été mute.`);
+        mentionUser.createDM().then(channel => {
+        channel.send("Tu t'es fait mute, et tu le restera jusqu'à qu'un admin te démute; tes rôles ont été supprimés, demande à un administrateur ou au propriétaire du serveur de les restaurer une fois démute.");
+      });
+      }).catch(err => {
+        message.channel.send(':x: **Erreur**, ' + err);
+      });
+    } else {
+      message.reply(`tu ne peux pas mute ${mentionUser.displayName} !`);
+    }
+  } else {
+    message.channel.send(notAuthorizedEmbedMessage);
+  }
+}
+//unmute
+else if (message.content.startsWith(`${BOT_PREFIX}unmute`)) {
+  if (message.member.hasPermission('MUTE_MEMBERS')) {
+    if (mentionUser == undefined) {
+      message.channel.send("Mentionne l'utilisateur que tu veux démute.");
+    } else {
+      message.guild.roles.cache.find(r => r.name === 'Muted').delete();
+      mentionUser.voice.setMute(false, 'Unmuted');
+      mentionUser.createDM().then(channel => {
+        channel.send('Tu as été unmute.')
+      });
+    }
+  } else {
+    message.channel.send(notAuthorizedEmbedMessage);
+  }
+}
 
 /*//addnote [argument]
 if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
