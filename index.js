@@ -156,7 +156,7 @@ else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
   if (message.member.hasPermission('MUTE_MEMBERS')) {
     if (mentionUser = undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux rendre muet.");
-    } else if (mentionUser.kickable) {
+    } else if (!mentionUser.hasPermission('ADMINISTRATOR')) {
       mentionUser.guild.roles.create({
         data: {
           name: 'Muted',
