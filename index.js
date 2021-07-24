@@ -159,28 +159,9 @@ else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
     if (mentionUser = undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux rendre muet.");
     } else /*if (!mentionUser.hasPermission('ADMINISTRATOR')) */{
-      mentionUser.guild.roles.create({
-        data: {
-          name: 'Muted',
-          color: 'BLACK',
-          permissions: '',
-        }
-      }).then(() => {
-        var muteRole = message.guild.roles.find(role => role.name === 'Muted');
-        global.muteRole;
-        mentionUser.roles.add(muteRole);
         mentionUser.voice.setMute(true, `Muted by ${message.author.username}`);
-        mentionUser.roles.remove();
         message.reply(`${mentionUser.displayName} à été mute.`);
-        mentionUser.createDM().then(channel => {
-        channel.send("Tu t'es fait mute, et tu le restera jusqu'à qu'un admin te démute; tes rôles ont été supprimés, demande à un administrateur ou au propriétaire du serveur de les restaurer une fois démute.");
-      });
-      }).catch(err => {
-        message.channel.send(':x: **Erreur**, ' + err);
-      });
-    } /*else {
-      message.reply(`tu ne peux pas mute ${mentionUser.displayName} !`);
-    }*/
+    } 
   } else {
     message.channel.send(notAuthorizedEmbedMessage);
   }
@@ -191,11 +172,7 @@ else if (message.content.startsWith(`${BOT_PREFIX}unmute`)) {
     if (mentionUser == undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux démute.");
     } else {
-      message.guild.roles.cache.find(r => r.name === 'Muted').delete();
       mentionUser.voice.setMute(false, 'Unmuted');
-      mentionUser.createDM().then(channel => {
-        channel.send('Tu as été unmute.')
-      });
     }
   } else {
     message.channel.send(notAuthorizedEmbedMessage);
