@@ -28,15 +28,15 @@ let mentionUser = message.mentions.members.first();
 let mentionChannel = message.mentions.channels.first();
 let mentionRole = message.mentions.roles.first();
 let args = message.content.split(' ');
-var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
-const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Erreur lors de l'envoi du message.**");
-const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Message envoyé avec succès !**');
+var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !').toJSON();
+const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Erreur lors de l'envoi du message.**").toJSON();
+const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Message envoyé avec succès !**').toJSON();
 //var notes = [];
 //let endMessage = args[0] + args[1];
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
-const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').setDescription("Voici toute les commandes actuellement disponible : \n**Utilitées**\niduser [Mention] : affiche l'identifiant de la personne mentionnée.\nidchannel [Mention] : affiche l'identifiant du salon mentionné.\navatar [Mention] : affiche l'avatar de l'utilisateur mentionné.").addFields({ name :'Préfixe du bot :', value : BOT_PREFIX, inline : true }, { name : "Région d'hébergement du bot :", value:'Europe', inline :  true }).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
+const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.').toJSON();
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
      message.delete();
@@ -46,16 +46,53 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
      });
 };
 
+//Utilities commands
+
 //avatar [argument]
 if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   if (mentionUser == undefined) {
-    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
+    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff').toJSON();
     message.channel.send(avatarMySelfEmbedMessage);
   } else {
-    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
+    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff').toJSON();
     message.channel.send(avatarYourSelfEmbedMessage);
   }
 }
+
+//getInfos [mention]
+
+//iduser [mention]
+if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
+  if (mentionUser == undefined) {
+    message.channel.send('Utilisateur non ou mal mentionné');
+  } else {
+    console.log(message.author.username + ' a utilisé la commande iduser pour ' + mentionUser.displayName + ' à : ' + message.createdAt);
+    message.channel.send("L'id de **" + mentionUser.displayName + "** est :__" + mentionUser.id + "__.");
+  };
+  };
+  
+  //idchannel [Mention]
+  if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
+    if (mentionChannel == undefined) {
+      message.channel.send('Salon non ou mal mentionné');
+    } else {
+      console.log(message.author.username + " a demandé l'ID de " + mentionChannel.name + ' à : ' + message.createdAt);
+    message.channel.send("L'id de **" + mentionChannel.name + "** est : __" + mentionChannel.id + '__ .');
+  };
+};
+
+//suggestion [argument]
+if (message.content.startsWith(BOT_PREFIX + 'suggestion')) { 
+  if (args == undefined) {
+    message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets entre chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
+  } else {
+    console.log(message.author.username + ' a une suggestion : ' + args[1] + ' à : ' + message.createdAt);
+    message.channel.send(SuccessEmbedMessage);
+  };
+};
+
+//End utilities commands
+//Moderation commands
 
 //restart
 if (message.content == BOT_PREFIX + 'restart') {
@@ -68,37 +105,6 @@ if (message.content == BOT_PREFIX + 'restart') {
     client.login(BOT_TOKEN);
     message.delete();
     message.channel.send('Bot redémmaré avec succès !');
-    };
-};
-
-
-//iduser [mention]
-if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
-if (mentionUser == undefined) {
-  message.channel.send('Utilisateur non ou mal mentionné');
-    } else {
-    console.log(message.author.username + ' a utilisé la commande iduser pour ' + mentionUser.displayName + ' à : ' + message.createdAt);
-    message.channel.send("L'id de **" + mentionUser.displayName + "** est :__" + mentionUser.id + "__.");
-    };
-  };
-
-//idchannel [Mention]
-if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
-  if (mentionChannel == undefined) {
-    message.channel.send('Salon non ou mal mentionné');
-  } else {
-    console.log(message.author.username + " a demandé l'ID de " + mentionChannel.name + ' à : ' + message.createdAt);
-    message.channel.send("L'id de **" + mentionChannel.name + "** est : __" + mentionChannel.id + '__ .');
-  };
-};
-
-//suggestion [argument]
-if (message.content.startsWith(BOT_PREFIX + 'suggestion')) { 
-  if (args == undefined) {
-    message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets entre chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
-  } else {
-     console.log(message.author.username + ' a une suggestion : ' + args[1] + ' à : ' + message.createdAt);
-     message.channel.send(SuccessEmbedMessage);
   };
 };
 
@@ -178,6 +184,8 @@ else if (message.content.startsWith(`${BOT_PREFIX}unmute`)) {
     message.channel.send(notAuthorizedEmbedMessage);
   }
 }
+
+//End moderation commands
 
 /*//addnote [argument]
 if (message.content.startsWith(BOT_PREFIX + 'addnote')) {
