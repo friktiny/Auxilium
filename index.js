@@ -15,8 +15,6 @@ const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 const BOT_PREFIX = process.env.BOT_PREFIX;
 
-
-
 client.on('guildMemberAdd', member => {
 member.roles.add('Joueur');
 });
@@ -28,15 +26,15 @@ let mentionUser = message.mentions.members.first();
 let mentionChannel = message.mentions.channels.first();
 let mentionRole = message.mentions.roles.first();
 let args = message.content.split(' ');
-var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !').toJSON();
-const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Erreur lors de l'envoi du message.**").toJSON();
-const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Message envoyé avec succès !**').toJSON();
+var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
+const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Erreur lors de l'envoi du message.**");
+const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Message envoyé avec succès !**');
 //var notes = [];
 //let endMessage = args[0] + args[1];
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
-const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.').toJSON();
+const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
      message.delete();
@@ -51,15 +49,22 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 //avatar [argument]
 if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   if (mentionUser == undefined) {
-    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff').toJSON();
+    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
     message.channel.send(avatarMySelfEmbedMessage);
   } else {
-    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff').toJSON();
+    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
     message.channel.send(avatarYourSelfEmbedMessage);
   }
 }
 
 //getInfos [mention]
+if (message.content.startsWith(`${BOT_PREFIX}getInfos`)) {
+  if (mentionUser == undefined) {
+    message.channel.send('De qui veux-tu avoir les informations ?');
+  } else {
+    let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.displayName + mentionUser.user.discriminator).setDescription(`Inscrit depuis le ${mentionUser.user.createdAt}`).addField('Dernier message publié :', mentionUser.lastMessage);
+  }
+}
 
 //iduser [mention]
 if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
@@ -114,7 +119,9 @@ if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
     if(mentionUser == undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux bannir.");
     } else if(args[2] == undefined){
-      message.channel.send('Argument manquant');
+      message.channel.send('Durée du banissement manquante.');
+    } else if (ars[3] == undefined) {
+      message.channel.send('Raison manquante.')
     } else if (mentionUser.bannable) {
         mentionUser.ban({days : args[2], reason : args[3,4,5,6,7,8,9,10,11,12,13]}).then(user => {
           message.channel.send(`@${mentionUser.displayName} à été banni.`);
@@ -140,8 +147,8 @@ else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
   if (message.member.hasPermission('KICK_MEMBERS')) {
     if (mentionUser == undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux exclure.");
-    } else if(args[3] == undefined) {
-      message.channel.send('Argument manquant.');
+    } else if(args[2] == undefined) {
+      message.channel.send('Raison manquante.');
     } else if (mentionUser.kickable) {
       mentionUser.kick(args[2,3,4,5,6,7,8,9,10,11,12]).then(user => {
         message.channel.send(`${mentionUser.displayName} à été exclu.`);
