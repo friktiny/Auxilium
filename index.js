@@ -49,10 +49,10 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 //avatar [argument]
 if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   if (mentionUser == undefined) {
-    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 1024, dynamic: true})).setColor('#00ffff');
+    var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
     message.channel.send(avatarMySelfEmbedMessage);
   } else {
-    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 1024, dynamic: true})).setColor('#00ffff');
+    var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
     message.channel.send(avatarYourSelfEmbedMessage);
   }
 }
@@ -158,7 +158,7 @@ else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
   if (message.member.hasPermission('MUTE_MEMBERS')) {
     if (mentionUser = undefined) {
       message.channel.send("Mentionne l'utilisateur que tu veux rendre muet.");
-    } else if (!mentionUser.hasPermission('ADMINISTRATOR')) {
+    } else /*if (!mentionUser.hasPermission('ADMINISTRATOR')) */{
       mentionUser.guild.roles.create({
         data: {
           name: 'Muted',
@@ -178,9 +178,9 @@ else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
       }).catch(err => {
         message.channel.send(':x: **Erreur**, ' + err);
       });
-    } else {
+    } /*else {
       message.reply(`tu ne peux pas mute ${mentionUser.displayName} !`);
-    }
+    }*/
   } else {
     message.channel.send(notAuthorizedEmbedMessage);
   }
