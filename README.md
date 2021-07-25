@@ -1,5 +1,5 @@
 # ***Auxilium***
-## MultiPurpose Discord Bot **BETA**.
+### MultiPurpose Discord Bot **BETA**.
 
 *Auxilium* is a bot that will bring many features, although already present on the market, but with a simple and quick access.
 
