@@ -63,6 +63,7 @@ if (message.content.startsWith(`${BOT_PREFIX}getInfos`)) {
     message.channel.send('De qui veux-tu avoir les informations ?');
   } else {
     let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.displayName + mentionUser.user.discriminator).setDescription(`Inscrit depuis le ${mentionUser.user.createdAt}`).addField('Dernier message publié :', mentionUser.lastMessage);
+    message.channel.send(infosUserEmbedMessage);
   }
 }
 
