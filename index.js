@@ -57,14 +57,20 @@ if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   }
 }
 
-//getInfos [mention]
-if (message.content.startsWith(`${BOT_PREFIX}getInfos`)) {
+//getInfosUser [mention]
+if (message.content.startsWith(`${BOT_PREFIX}getInfosUser`)) {
   if (mentionUser == undefined) {
     message.channel.send('De qui veux-tu avoir les informations ?');
   } else {
     let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.user.tag).setDescription(`Inscrit depuis le ${mentionUser.user.createdAt}`).addField('Dernier message publié :', mentionUser.lastMessage, true).addField('Activitée :', mentionUser.user.presence, true).addField('Est dans le serveur depuis :', mentionUser.joinedAt, false);
     message.channel.send(infosUserEmbedMessage);
   }
+}
+
+//getInfosServer
+if (message.content == `${BOT_PREFIX}getInfosServer`) {
+  let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('A été crée le ' + message.guild.createdAt + ` par **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({name : 'Région', value : message.guild.region, inline : true}, {name : 'Nombre de membres', value : message.guild.memberCount.toString(), inline : true}).setImage(message.guild.bannerURL({format : "png", size : 512}));
+  message.channel.send(infosServerEmbedMessage);
 }
 
 //iduser [mention]
