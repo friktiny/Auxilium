@@ -8,6 +8,7 @@ Its current features include moderation, server data processing and some fun com
 **The beginning will be slow and boring but the development will only take a few weeks/months and will bring many more features!**
 
 These files controls the Discord bot _Auxilium#5321_ own by _Nat76#3958_.
-**This bot isn't public.**
+
+**The bot is currently not available to the public.**
 
 Contact : nat76geek@gmail.com.
