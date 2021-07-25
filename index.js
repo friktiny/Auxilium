@@ -62,7 +62,7 @@ if (message.content.startsWith(`${BOT_PREFIX}getInfos`)) {
   if (mentionUser == undefined) {
     message.channel.send('De qui veux-tu avoir les informations ?');
   } else {
-    let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.displayName + mentionUser.user.discriminator).setDescription(`Inscrit depuis le ${mentionUser.user.createdAt}`).addField('Dernier message publié :', mentionUser.lastMessage);
+    let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.user.tag/*username + '#' + mentionUser.user.discriminator*/).setDescription(`Inscrit depuis le ${mentionUser.user.createdTimestamp}`).addField('Dernier message publié :', mentionUser.lastMessage, true).addField('Activitée :', mentionUser.presence, true).addField('Est dans le serveur depuis :', mentionUser.joinedAt, false);
     message.channel.send(infosUserEmbedMessage);
   }
 }
