@@ -67,6 +67,49 @@ if (message.content.startsWith(`${BOT_PREFIX}getInfosUser`)) {
   }
 }
 
+//clean
+if (message.content.startsWith(`${BOT_PREFIX}clean`)) {
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    message.channel.send(notAuthorizedEmbedMessage);
+  } else {
+    if (args[1] === undefined) {
+      let cleanSyntaxEmbedMessage = new Discord.MessageEmbed().setTitle('Clean Syntaxe').setColor('LIGHTGREEN').setDescription("**Syntaxe** :\n`$clean [nombre de message à supprimer dans CE salon]\n$clean [nombre de message à supprimer dans CE salon] [Mention d'utilisateur/de salon]`\n**Exemple** :\n`$clean 26 @Nat76\nclean 12 #général`");
+      message.channel.send(cleanSyntaxEmbedMessage);
+    } else {
+      message.delete();
+
+      if (args[2] == mentionUser) {
+        for (let i = 0; i < args[1]; i++) {
+          message.mentions.members.first().lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
+        }
+      } else if (args[2] == mentionChannel) {
+        for (let i = 0; i = args[1]; i++) {
+          message.mentions.channels.first().lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
+        }
+      } else {
+          for (let i = 0; i = args[1];i++) {
+            message.channel.lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
+        }
+      }
+    }
+  }
+}
+/*//cleanAll
+else if (message.content.startsWith(`${BOT_PREFIX}cleanAll`)) {
+  if (!message.member.hasPermission('MANAGE_MESSAGES')) {
+    message.channel.send(notAuthorizedEmbedMessage);
+  } else if (args[1] == undefined) {
+    let cleanAllSyntaxEmbedMessage = new Discord.MessageEmbed().setTitle('CleanAll Syntaxe').setColor('LIGHTGREEN').setDescription('**Syntaxe** : \n`$cleanAll [Mention d\'utilisateur/de salon/de rôle]`\n**Exemple** : \n`$cleanAll @Nat76\n$cleanAll #général\n$cleanAll @Admin`');
+    message.channel.send(cleanAllSyntaxEmbedMessage);
+  } else {
+    message.delete();
+
+    if (args[1] == mentionUser) {
+      for (let i = 0;message.mentions.members.first())
+    }
+  }
+}*/
+
 //getInfosServer
 if (message.content == `${BOT_PREFIX}getInfosServer`) {
   let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('A été crée le ' + message.guild.createdAt + ` par **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({name : 'Région', value : message.guild.region, inline : true}, {name : 'Nombre de membres', value : message.guild.memberCount.toString(), inline : true}).setImage(message.guild.bannerURL({format : "png", size : 512}));
