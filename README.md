@@ -10,3 +10,5 @@ Its current features include moderation, server data processing and some fun com
 These files controls the Discord bot _Auxilium#3225_ own by _Nat76#3958_.
 
 **The bot will be updated (_always with new features_) very frequently.**
+
+#### [**Add me !**](https://discord.com/api/oauth2/authorize?client_id=868938936758710312&permissions=8&scope=bot)
