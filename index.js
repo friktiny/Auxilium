@@ -13,10 +13,17 @@ client.login(BOT_TOKEN).then(() => {
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
-const BOT_PREFIX = process.env.BOT_PREFIX;
+const BOT_PREFIX = '$';
 
 client.on('guildMemberAdd', member => {
-member.roles.add('Joueur');
+  member.roles.add('Joueur');
+});
+
+client.on('guildCreate', server => {
+  let welcomeEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTBLUE').setAuthor(server.owner.user.username, server.owner.user.displayAvatarURL).setTitle('**Merci d\'avoir ajouté Auxilium dans' + server.name + ' !** :tada::tada::partying_face:').setDescription('Auxilium est un robot Discord qui prends en charge de nombreuses fonctionnalités : modération, amusement, aide à la gestion du serveur et quelques commandes utilitaires.\nVous pouvez voir la liste des commandes avec la commande `help`.\n Le préfixe par défaut d\'Auxilium est `$` mais vous (||du moins les admins||) peuvent changer le préfixe à tous moment en utilisant la commande `setPrefix [votre préfixe ici]`.\nVoilà ! Je vais me faire discret maintenant...').setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
+  server.systemChannel.send();
+  let thisServerInvite = /*à définir*/;
+  console.log(/* à définir */);
 });
 
 client.on('message', message => {
@@ -34,7 +41,7 @@ const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDe
 
 // help
 if (message.content == BOT_PREFIX + 'help') {
-const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For the bot, thanks to Discord.js and Heroku.');
+const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
     message.author.createDM().then(channel => {
     channel.send(helpEmbedMessage);
      message.delete();
@@ -46,6 +53,16 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 
 //Utilities commands
 
+//setPrefix [argument]
+if (message.content.startsWith(`${BOT_PREFIX}setPrefix`) {
+  if (args[1] == undefined) {
+  message.reply('Préfixe non défini !');
+} else if (message.member.hasPermissions('MANAGE_GUILD') {
+           let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
+           message.channel.send(setPrefixEmbedMessage):
+           BOT_PREFIX = args[1];
+}
+    }
 //avatar [argument]
 if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   if (mentionUser == undefined) {
