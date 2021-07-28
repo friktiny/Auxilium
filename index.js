@@ -12,9 +12,10 @@ client.login(BOT_TOKEN).then(() => {
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
-var BOT_PREFIX = '$';
+const BOT_PREFIX = process.env.BOT_PREFIX;
 
 client.on('guildMemberAdd', newMember => {
+  const Joueur = 
   newMember.roles.add('Joueur');
 });
 
