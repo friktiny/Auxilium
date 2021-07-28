@@ -13,7 +13,7 @@ const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 var BOT_PREFIX = '$';
-var LOCAL_BOT_NAME;
+this.BOT_PREFIX = '$';
 
 client.on('guildMemberAdd', member => {
   member.roles.add('Joueur');
