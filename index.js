@@ -323,8 +323,7 @@ server.owner.createDM().then(dm => dm.send('Erreur, je n\'ai pas réussi à me c
 
 
 client.on('presenceUpdate', onlineMember => {
-  if (onlineMember.status = 'invisible' || 'dnd' || 'idle' || 'offline') return
-  else {
+  if (onlineMember.status = 'online') {
     var min=1; 
     var max=5;  
     var random = Math.floor(Math.random() * (max - min)) + min; 
@@ -339,5 +338,6 @@ client.on('presenceUpdate', onlineMember => {
         dm.send(('Alors comme ça tu te déconnectes sans mon autorisation ? Si tu refais ça tu sera privé de Discord pendant deux semaines ! :yum:'));
       };
     });
-  };
+  }
+
 });
