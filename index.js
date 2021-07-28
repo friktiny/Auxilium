@@ -321,7 +321,7 @@ server.owner.createDM().then(dm => dm.send('Erreur, je n\'ai pas réussi à me c
   });
 });
 
-
+/*
 client.on('presenceUpdate', onlineMember => {
   if (onlineMember.status == 'online') {
     var min=1; 
@@ -352,3 +352,4 @@ client.on('presenceUpdate', onlineMember => {
   } else return;
 
 });
+*/
