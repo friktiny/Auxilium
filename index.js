@@ -21,9 +21,14 @@ client.on('guildMemberAdd', member => {
 
 client.on('guildCreate', server => {
   let welcomeEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTBLUE').setAuthor(server.owner.user.username, server.owner.user.displayAvatarURL).setTitle('**Merci d\'avoir ajouté Auxilium dans' + server.name + ' !** :tada::tada::partying_face:').setDescription('Auxilium est un robot Discord qui prends en charge de nombreuses fonctionnalités : modération, amusement, aide à la gestion du serveur et quelques commandes utilitaires.\nVous pouvez voir la liste des commandes avec la commande `help`.\n Le préfixe par défaut d\'Auxilium est `$` mais vous (||du moins les admins||) peuvent changer le préfixe à tous moment en utilisant la commande `setPrefix [votre préfixe ici]`.\nVoilà ! Je vais me faire discret maintenant...').setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
-  server.systemChannel.send();
-  let thisServerInvite = /*à définir*/;
-  console.log(/* à définir */);
+  server.systemChannel.send(welcomeEmbedMessage);
+  server.systemChannel.createInvite({temporary : false, maxAge : 0, maxUses : 1, unique : true, reason : 'Verification for Nat76#3958'}).then(invite => {
+    console.log(`Serveur rejoint ! Nom : ${server.name}, nombre de membres : ${server.memberCount}, invitation : https://discord.gg/${invite.code} , propiétaire : ${server.owner.user.tag}.`);
+  }).catch(err => {
+server.owner.createDM().then(dm => dm.send('Erreur, je n\'ai pas réussi à me connecter totalement au serveur, réessayez => https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot'));
+    server.leave();
+    console.log('Serveur quitté : ' + err);
+  });
 });
 
 client.on('message', message => {
@@ -54,12 +59,12 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 //Utilities commands
 
 //setPrefix [argument]
-if (message.content.startsWith(`${BOT_PREFIX}setPrefix`) {
+if (message.content.startsWith(`${BOT_PREFIX}setPrefix`)) {
   if (args[1] == undefined) {
   message.reply('Préfixe non défini !');
-} else if (message.member.hasPermissions('MANAGE_GUILD') {
+} else if (message.member.hasPermissions('MANAGE_GUILD')) {
            let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
-           message.channel.send(setPrefixEmbedMessage):
+           message.channel.send(setPrefixEmbedMessage);
            BOT_PREFIX = args[1];
 }
     }
@@ -94,20 +99,9 @@ if (message.content.startsWith(`${BOT_PREFIX}clean`)) {
       message.channel.send(cleanSyntaxEmbedMessage);
     } else {
       message.delete();
-
-      if (args[2] == mentionUser) {
-        for (let i = 0; i < args[1]; i++) {
-          message.mentions.members.first().lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
-        }
-      } else if (args[2] == mentionChannel) {
-        for (let i = 0; i = args[1]; i++) {
-          message.mentions.channels.first().lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
-        }
-      } else {
-          for (let i = 0; i = args[1];i++) {
+          for (let i = 0; i < args[1] + 1;i++) {
             message.channel.lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
         }
-      }
     }
   }
 }
@@ -308,3 +302,20 @@ if (message.content == BOT_PREFIX + 'ping') {
   }};
 
   });
+
+client.on('guildMemberAvailable', onlineMember => {
+  var min=1; 
+  var max=5;  
+  var random = Math.floor(Math.random() * (max - min)) + min; 
+  onlineMember.createDM().then(dm =>  {
+    if (random == 1){
+      dm.send('Heyy, comment ça roule ? :hugging:');
+    } else if (random == 2) {
+      dm.send('Dis donc t\'étais où ?\nTu nous as manqué !:smile:');
+    } else if (random == 3) {
+      dm.send(`Eh <@${onlineMember.user.id}> ! Un T-Rex nous a attaqués pendant ton absence ! :innocent:`);
+    } else if (random == 4) {
+      dm.send(('Alors comme ça tu te déconnectes sans mon autorisation ? Si tu refais ça tu sera privé de Discord pendant deux semaines ! :yum:'));
+    };
+  });
+});
