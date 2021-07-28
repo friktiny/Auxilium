@@ -15,8 +15,8 @@ const BOT_ID = process.env.BOT_ID;
 const BOT_PREFIX = process.env.BOT_PREFIX;
 
 client.on('guildMemberAdd', newMember => {
-  const Joueur = 
-  newMember.roles.add('Joueur');
+ // const Joueur = newMember.
+  newMember.roles.add('864898505470377984');
 });
 
 client.on('message', message => {
@@ -57,7 +57,7 @@ client.on('message', message => {
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
     }
-  } this 
+  }
   
   //setName [argument]
   if (message.content.startsWith(`${BOT_PREFIX}setName`)) {
