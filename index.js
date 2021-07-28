@@ -14,6 +14,7 @@ const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 var BOT_PREFIX = '$';
+var LOCAL_BOT_NAME = 'Auxilium';
 
 client.on('guildMemberAdd', member => {
   member.roles.add('Joueur');
@@ -61,13 +62,29 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 //setPrefix [argument]
 if (message.content.startsWith(`${BOT_PREFIX}setPrefix`)) {
   if (args[1] == undefined) {
-  message.reply('Préfixe non défini !');
+  message.reply('préfixe non défini !');
 } else if (message.member.hasPermission('MANAGE_GUILD')) {
-           let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
-           message.channel.send(setPrefixEmbedMessage);
-           BOT_PREFIX = args[1];
+    let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
+    message.channel.send(setPrefixEmbedMessage);
+    BOT_PREFIX = args[1];
+  } else {
+    message.channel.send(notAuthorizedEmbedMessage);
+  }
 }
-    }
+
+//setName [argument]
+if (message.content.startsWith(`${BOT_PREFIX}setName`)) {
+  if (args[1] == undefined) {
+    message.reply('nom non défini !');
+  } else if (message.member.hasPermission('MANAGE_GUILD')) {
+    let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Pseudo changé !').setDescription('Le pseudo `' + LOCAL_BOT_NAME + '` a été remplacé par `' + args[1] + '` !' );
+    message.channel.send(setNameEmbedMessage);
+    this.LOCAL_BOT_NAME = args[1];
+    client.user.setUsername(this.LOCAL_BOT_NAME);
+  } else {
+    message.channel.send(notAuthorizedEmbedMessage);
+  }
+}
 //avatar [argument]
 if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
   if (mentionUser == undefined) {
