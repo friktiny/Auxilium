@@ -1,7 +1,7 @@
 {
-    "name": "auxilium",
-    "version": "4.3.8",
-    "description": "My First Discord bot!",
+    "name": "auxilium_discord_bot",
+    "version": "5.0.0",
+    "description": "Auxilum is a future multi-purpose bot !",
     "main": "index.js",
     "scripts": {
         "start": "node index.js"

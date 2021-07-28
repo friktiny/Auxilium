@@ -62,7 +62,7 @@ const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle
 if (message.content.startsWith(`${BOT_PREFIX}setPrefix`)) {
   if (args[1] == undefined) {
   message.reply('Préfixe non défini !');
-} else if (message.member.hasPermissions('MANAGE_GUILD')) {
+} else if (message.member.hasPermission('MANAGE_GUILD')) {
            let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
            message.channel.send(setPrefixEmbedMessage);
            BOT_PREFIX = args[1];
