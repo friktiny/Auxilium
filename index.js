@@ -328,7 +328,7 @@ client.on('presenceUpdate', onlineMember => {
     var min=1; 
     var max=5;  
     var random = Math.floor(Math.random() * (max - min)) + min; 
-    onlineMember.createDM().then(dm =>  {
+    onlineMember.user.createDM().then(dm =>  {
       if (random == 1){
         dm.send('Heyy, comment ça roule ? :hugging:');
       } else if (random == 2) {
