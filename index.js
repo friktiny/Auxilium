@@ -116,7 +116,7 @@ if (message.content.startsWith(`${BOT_PREFIX}clean`)) {
       message.channel.send(cleanSyntaxEmbedMessage);
     } else {
       message.delete();
-          for (let i = 0; i < args[1] + 1;i++) {
+          for (let i = 0; i < args[1];i++) {
             message.channel.lastMessage.delete({reason : `Cleaned for ${message.author.username}`});
         }
     }
