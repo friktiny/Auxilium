@@ -53,20 +53,19 @@ client.on('message', message => {
   } else if (message.member.hasPermission('MANAGE_GUILD')) {
       let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
       message.channel.send(setPrefixEmbedMessage);
-      this.BOT_PREFIX = args[1];
+      BOT_PREFIX = args[1];
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
     }
-  }
+  } this 
   
   //setName [argument]
-  if (message.content.startsWith(`${this.BOT_PREFIX}setName`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}setName`)) {
     if (args[1] == undefined) {
       message.reply('nom non défini !');
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
       let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Pseudo changé !').setDescription('Le pseudo `' + LOCAL_BOT_NAME + '` a été remplacé par `' + args[1] + '` !' );
       message.guild.me.setNickname(args[1]);
-      this.LOCAL_BOT_NAME = args[1];
       message.channel.send(setNameEmbedMessage);
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
