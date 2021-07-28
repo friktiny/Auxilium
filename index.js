@@ -13,14 +13,13 @@ const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 var BOT_PREFIX = '$';
-this.BOT_PREFIX = '$';
 
-client.on('guildMemberAdd', member => {
-  member.roles.add('Joueur');
+client.on('guildMemberAdd', newMember => {
+  newMember.roles.add('Joueur');
 });
 
 client.on('message', message => {
-  if (!message.content.startsWith(this.BOT_PREFIX) || message.author) return;
+  if (!message.content.startsWith(BOT_PREFIX) || message.author) return;
   if (message.channel.type == 'dm' && message.author.id !== '754229847206658160') return;
   let mentionUser = message.mentions.members.first();
   let mentionChannel = message.mentions.channels.first();
@@ -33,7 +32,7 @@ client.on('message', message => {
   //let endMessage = args[0] + args[1];
   
   // help
-  if (message.content == this.BOT_PREFIX + 'help') {
+  if (message.content == BOT_PREFIX + 'help') {
   const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
       message.author.createDM().then(channel => {
       channel.send(helpEmbedMessage);
@@ -47,7 +46,7 @@ client.on('message', message => {
   //Utilities commands
   
   //setPrefix [argument]
-  if (message.content.startsWith(`${this.BOT_PREFIX}setPrefix`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}setPrefix`)) {
     if (args[1] == undefined) {
     message.reply('préfixe non défini !');
   } else if (message.member.hasPermission('MANAGE_GUILD')) {
@@ -74,7 +73,7 @@ client.on('message', message => {
   }
 
   //avatar [argument]
-  if (message.content.startsWith(this.BOT_PREFIX + 'avatar')) {
+  if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
     if (mentionUser == undefined) {
       var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
       message.channel.send(avatarMySelfEmbedMessage);
@@ -95,7 +94,7 @@ client.on('message', message => {
   }
   
   //clean
-  if (message.content.startsWith(`${this.BOT_PREFIX}clean`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}clean`)) {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
@@ -127,13 +126,13 @@ client.on('message', message => {
   }*/
   
   //getInfosServer
-  if (message.content == `${this.BOT_PREFIX}getInfosServer`) {
+  if (message.content == `${BOT_PREFIX}getInfosServer`) {
     let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('A été crée le ' + message.guild.createdAt + ` par **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({name : 'Région', value : message.guild.region, inline : true}, {name : 'Nombre de membres', value : message.guild.memberCount.toString(), inline : true}).setImage(message.guild.bannerURL({format : "png", size : 512}));
     message.channel.send(infosServerEmbedMessage);
   }
   
   //iduser [mention]
-  if (message.content.startsWith(this.BOT_PREFIX + 'iduser')) {
+  if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
     if (mentionUser == undefined) {
       message.channel.send('Utilisateur non ou mal mentionné');
     } else {
@@ -143,7 +142,7 @@ client.on('message', message => {
     };
     
     //idchannel [Mention]
-    if (message.content.startsWith(this.BOT_PREFIX + 'idchannel')) {
+    if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
       if (mentionChannel == undefined) {
         message.channel.send('Salon non ou mal mentionné');
       } else {
@@ -153,7 +152,7 @@ client.on('message', message => {
   };
   
   //suggestion [argument]
-  if (message.content.startsWith(this.BOT_PREFIX + 'suggestion')) { 
+  if (message.content.startsWith(BOT_PREFIX + 'suggestion')) { 
     if (args == undefined) {
       message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets entre chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
     } else {
@@ -166,8 +165,8 @@ client.on('message', message => {
   //Moderation commands
   
   //restart
-  if (message.content == this.BOT_PREFIX + 'restart') {
-    if (!message.member.hasPermission('ADMINISTRATOR') || message.author.id !== '754229847206658160') {
+  if (message.content == BOT_PREFIX + 'restart') {
+    if (message.author.id !== '754229847206658160') {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
       message.channel.send('Redémarrage...');
@@ -180,7 +179,7 @@ client.on('message', message => {
   };
   
   //ban
-  if (message.content.startsWith(`${this.BOT_PREFIX}ban`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
     if(message.member.hasPermission('BAN_MEMBERS')) {
       if(mentionUser == undefined) {
         message.channel.send("Mentionne l'utilisateur que tu veux bannir.");
@@ -209,7 +208,7 @@ client.on('message', message => {
     }
   }
   //kick
-  else if (message.content.startsWith(`${this.BOT_PREFIX}kick`)) {
+  else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
     if (message.member.hasPermission('KICK_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mentionne l'utilisateur que tu veux exclure.");
@@ -233,7 +232,7 @@ client.on('message', message => {
     }
   }
   //mute
-  else if (message.content.startsWith(`${this.BOT_PREFIX}mute`)) {
+  else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser = undefined) {
         message.channel.send("Mentionne l'utilisateur que tu veux rendre muet.");
@@ -246,7 +245,7 @@ client.on('message', message => {
     }
   }
   //unmute
-  else if (message.content.startsWith(`${this.BOT_PREFIX}unmute`)) {
+  else if (message.content.startsWith(`${BOT_PREFIX}unmute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mentionne l'utilisateur que tu veux démute.");
@@ -296,7 +295,7 @@ client.on('message', message => {
   }*/
   
   //ping
-  if (message.content == this.BOT_PREFIX + 'ping') {
+  if (message.content == BOT_PREFIX + 'ping') {
      if (!message.member.hasPermission('ADMINISTRATOR')|| message.author.id !== '754229847206658160') {
       console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
       message.channel.send(notAuthorizedEmbedMessage);
