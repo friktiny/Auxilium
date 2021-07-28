@@ -328,16 +328,27 @@ client.on('presenceUpdate', onlineMember => {
     var max=5;  
     var random = Math.floor(Math.random() * (max - min)) + min; 
     onlineMember.user.createDM().then(dm =>  {
-      if (random == 1){
-        dm.send('Heyy, comment ça roule ? :hugging:');
-      } else if (random == 2) {
-        dm.send('Dis donc t\'étais où ?\nTu nous as manqué !:smile:');
-      } else if (random == 3) {
-        dm.send(`Eh <@${onlineMember.user.id}> ! Un T-Rex nous a attaqués pendant ton absence ! :innocent:`);
-      } else if (random == 4) {
-        dm.send(('Alors comme ça tu te déconnectes sans mon autorisation ? Si tu refais ça tu sera privé de Discord pendant deux semaines ! :yum:'));
+      switch (random) {
+        case 1 :
+          dm.send('Heyy, comment ça roule ? :hugging:;');
+          break;
+        
+        case 2 : 
+           dm.send('Dis donc t\'étais où ?\nTu nous as manqué !:smile:');
+          break;
+
+        case 3 : 
+           dm.send(`Eh <@${onlineMember.user.id}> ! Un T-Rex nous a attaqués pendant ton absence ! :innocent:`);
+          break;
+
+        case 4 : 
+           dm.send('Alors comme ça tu te déconnectes sans mon autorisation ? Si tu refais ça tu sera privé de Discord pendant deux semaines ! :yum:');
+          break
+        default:
+          console.error(`[FAILED TO SEND MESSAGE IN DM CHANNEL] Je n\'ai pas réussi à acceullir ${onlineMember.user.tag}...`);
+          break;
       };
     });
-  }
+  } else return;
 
 });
