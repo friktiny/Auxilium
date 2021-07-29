@@ -191,7 +191,7 @@ client.on('message', message => {
     if (args[1] == undefined) {
       message.reply('name not defined!');
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
-      let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname changed!').setDescription('The nickname `' + LOCAL_BOT_NAME + '` has been replaced by `' + args[1] + '` !');
+      let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname changed!').setDescription('The nickname `' + message.guild.me.nickname + '` has been replaced by `' + args[1] + '` !');
       message.guild.me.setNickname(args[1]);
       message.channel.send(setNameEmbedMessage);
     } else {
