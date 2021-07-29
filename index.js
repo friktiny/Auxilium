@@ -13,6 +13,7 @@ const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 const BOT_PREFIX = process.env.BOT_PREFIX;
+this.BOT_PREFIX = '$';
 
 client.on('guildMemberAdd', newMember => {
   // const Player = newMember.
@@ -30,11 +31,13 @@ client.on('message', message => {
   const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Error while sending the message.**");
   const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Successfully sent message!**');
   //var notes = [] ;
-  const endMessage = args;
+  const Message = args;
+  let muted_member = [];
+  let custom_command = [command, execution];
 
   // help
-  if (message.content == BOT_PREFIX + 'help') {
-    const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Command').setAuthor('Add me to your server!', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({ name: 'Utilities', value: 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*nsuggestion *[argument]*', inline: true }, { name: 'Moderation', value: 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline: true }, { name: 'Bot prefix :', value: BOT_PREFIX, inline: false }).addField('*argument*', 'Required value', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub!');
+  if (message.content == this.BOT_PREFIX + 'help') {
+    const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Command').setAuthor('Add me to your server!', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({ name: 'Utilities', value: 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*nsuggestion *[argument]*', inline: true }, { name: 'Moderation', value: 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline: true }, { name: '(Default) Bot prefix :', value: '`(' + BOT_PREFIX + ') ' + this.BOT_PREFIX, inline: false }).addField('*argument*', 'Required value', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub!');
     message.author.createDM().then(channel => {
       channel.send(helpEmbedMessage);
       message.delete();
@@ -46,34 +49,9 @@ client.on('message', message => {
 
   // Utility commands
 
-  //setPrefix [argument]
-  if (message.content.startsWith(`${BOT_PREFIX}setPrefix`)) {
-    if (args[1] == undefined) {
-      message.reply('undefined prefix!');
-    } else if (message.member.hasPermission('MANAGE_GUILD')) {
-      let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Prefix changed!').setDescription('The prefix `' + BOT_PREFIX + '` has been replaced by `' + args[1] + '` !');
-      message.channel.send(setPrefixEmbedMessage);
-      BOT_PREFIX = args[1];
-    } else {
-      message.channel.send(notAuthorizedEmbedMessage);
-    }
-  }
-
-  //setName [argument]
-  if (message.content.startsWith(`${BOT_PREFIX}setName`)) {
-    if (args[1] == undefined) {
-      message.reply('name not defined!');
-    } else if (message.member.hasPermission('MANAGE_GUILD')) {
-      let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname changed!').setDescription('The nickname `' + LOCAL_BOT_NAME + '` has been replaced by `' + args[1] + '` !');
-      message.guild.me.setNickname(args[1]);
-      message.channel.send(setNameEmbedMessage);
-    } else {
-      message.channel.send(notAuthorizedEmbedMessage);
-    }
-  }
 
   //avatar [argument]
-  if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
+  if (message.content.startsWith(this.BOT_PREFIX + 'avatar')) {
     if (mentionUser == undefined) {
       var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Your avatar:').setImage(message.author.displayAvatarURL({ format: 'png', size: 2048, dynamic: true })).setColor('#00ffff');
       message.channel.send(avatarMySelfEmbedMessage);
@@ -84,17 +62,17 @@ client.on('message', message => {
   }
 
   //getInfosUser [mention]
-  if (message.content.startsWith(`${BOT_PREFIX}getInfosUser`)) {
+  if (message.content.startsWith(`${this.BOT_PREFIX}getInfosUser`)) {
     if (mentionUser == undefined) {
       message.channel.send('Who do you want the information from?');
     } else {
-      let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true })).setTitle(mentionUser.user.tag).setDescription(`Inscribed since ${mentionUser.user.createdAt}`).addField('Last message published:', mentionUser.lastMessage, true).addField('Activated:', mentionUser.user.presence, true).addField('Has been in the server since:', mentionUser.joinedAt, false);
+      let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setAuthor(mentionUser.nickname, mentionUser.user.displayAvatarURL()).setImage(mentionUser.user.displayAvatarURL({ format: 'png', size: 256, dynamic: true })).setTitle(mentionUser.user.tag).setDescription(`Inscribed since ${mentionUser.user.createdAt}`).addField('Last message published:', mentionUser.lastMessage.content, true).addField('Status:', mentionUser.user.presence.status, true).addField('Has been in the server since:', mentionUser.joinedAt, false);
       message.channel.send(infosUserEmbedMessage);
     }
   }
 
   //clean
-  if (message.content.startsWith(`${BOT_PREFIX}clean`)) {
+  if (message.content.startsWith(`${this.BOT_PREFIX}clean`)) {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
@@ -118,7 +96,7 @@ client.on('message', message => {
       message.channel.send(cleanAllSyntaxEmbedMessage);
     } else {
       message.delete();
-  
+      
       if (args[1] == mentionUser) {
         for (let i = 0;message.mentions.members.first())
       }
@@ -126,13 +104,13 @@ client.on('message', message => {
   }*/
 
   //getInfosServer
-  if (message.content == `${BOT_PREFIX}getInfosServer`) {
-    let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('Was created on ' + message.guild.createdAt + ` by **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({ name: 'Region', value: message.guild.region, inline: true }, { name: 'Number of members', value: message.guild.memberCount.toString(), inline: true }).setImage(message.guild.bannerURL({ format: "png", size: 512 }));
+  if (message.content == `${this.BOT_PREFIX}getInfosServer`) {
+    let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('#3af24b').setTitle(message.guild.name).setDescription('Was created on ' + message.guild.createdAt + ` by **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({ name: 'Region', value: message.guild.region, inline: true }, { name: 'Number of members', value: message.guild.memberCount.toString(), inline: true }, { name: 'MFA Level', value: message.guild.mfaLevel, inline: true }, { name: 'General channel', value: message.guild.systemChannel, inline: false }).setImage(message.guild.bannerURL({ format: "png", size: 512 }));
     message.channel.send(infosServerEmbedMessage);
   }
 
   //iduser[mention]
-  if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
+  if (message.content.startsWith(this.BOT_PREFIX + 'iduser')) {
     if (mentionUser == undefined) {
       message.channel.send('User not or wrongly mentioned');
     } else {
@@ -141,7 +119,7 @@ client.on('message', message => {
   };
 
   //idchannel [Mention]
-  if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
+  if (message.content.startsWith(this.BOT_PREFIX + 'idchannel')) {
     if (mentionChannel == undefined) {
       message.channel.send('Channel not or incorrectly mentioned');
     } else {
@@ -150,11 +128,11 @@ client.on('message', message => {
   };
 
   //suggestion [argument]
-  if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
+  if (message.content.startsWith(this.BOT_PREFIX + 'suggestion')) {
     if (args == undefined) {
-      message.reply("you didn't write down your suggestion, write it down with a space after suggestion and dashes between each word. Like this:\n" + BOT_PREFIX + "suggestion Here-my-suggestion.");
+      message.reply("you didn't write down your suggestion, write it down with a space after suggestion and dashes between each word. Like this:\n" + this.BOT_PREFIX + "suggestion Here's-my-suggestion.");
     } else {
-      console.log(message.author.username + ' has a suggestion: ' + args[1-4000] + ' to : ' + message.createdAt);
+      console.log(message.author.tag + ' has a suggestion: ' + args[1 - 100] + ' at : ' + message.createdAt);
       message.channel.send(SuccessEmbedMessage);
     };
   };
@@ -163,7 +141,7 @@ client.on('message', message => {
   //Moderation commands
 
   //restart
-  if (message.content == BOT_PREFIX + 'restart') {
+  if (message.content == this.BOT_PREFIX + 'restart') {
     if (message.author.id !== '754229847206658160') {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
@@ -177,7 +155,7 @@ client.on('message', message => {
   };
 
   //announcement [channel] [message]
-  if (message.content.startsWith(`${BOT_PREFIX}announcement`)) {
+  if (message.content.startsWith(`${this.BOT_PREFIX}announcement`)) {
     if (!message.member.hasPermission('MENTION_EVERYONE')) {
       message.channel.send(notAuthorizedEmbedMessage);
     } else if (args[1] == undefined) {
@@ -187,16 +165,42 @@ client.on('message', message => {
       message.reply('you didn\'t specify the content of your message');
     } else {
       message.delete();
-      client.channels.cache.get(mentionChannel.id).send(args[2-102]);
-      message.author.createDM().then(dm => {
-        dm.send(new Discord.MessageEmbed().setDescription(':white_check_mark: **Message successfully sent!**'));
-      });
+      client.channels.cache.get(mentionChannel.id).send(args[2 - 102]).then(() => {
+        message.author.createDM().then(dm => {
+          dm.send(new Discord.MessageEmbed().setDescription(':white_check_mark: **Message successfully sent!**'));
+        });
+      }).catch(err => message.reply(err));
     }
   }
 
+  //setPrefix [argument]
+  if (message.content.startsWith(`${this.BOT_PREFIX}setPrefix`)) {
+    if (args[1] == undefined) {
+      message.reply('undefined prefix!');
+    } else if (message.member.hasPermission('MANAGE_GUILD')) {
+      let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Prefix changed!').setDescription('The prefix `' + this.BOT_PREFIX + '` has been replaced by `' + args[1] + '` !');
+      message.channel.send(setPrefixEmbedMessage);
+      this.BOT_PREFIX = args[1];
+    } else {
+      message.channel.send(notAuthorizedEmbedMessage);
+    }
+  }
+
+  //setName [argument]
+  if (message.content.startsWith(`${this.BOT_PREFIX}setName`)) {
+    if (args[1] == undefined) {
+      message.reply('name not defined!');
+    } else if (message.member.hasPermission('MANAGE_GUILD')) {
+      let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname changed!').setDescription('The nickname `' + LOCAL_BOT_NAME + '` has been replaced by `' + args[1] + '` !');
+      message.guild.me.setNickname(args[1]);
+      message.channel.send(setNameEmbedMessage);
+    } else {
+      message.channel.send(notAuthorizedEmbedMessage);
+    }
+  }
 
   //ban [user]
-  if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
+  if (message.content.startsWith(`${ths.BOT_PREFIX}ban`)) {
     if (message.member.hasPermission('BAN_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mention the user you want to ban.");
@@ -225,7 +229,7 @@ client.on('message', message => {
     }
   }
   //kick
-  else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
+  else if (message.content.startsWith(`${this.BOT_PREFIX}kick`)) {
     if (message.member.hasPermission('KICK_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mention the user you want to kick.");
@@ -249,11 +253,11 @@ client.on('message', message => {
     }
   }
   //mute
-  else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
+  else if (message.content.startsWith(`${this.BOT_PREFIX}mute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser = undefined) {
         message.channel.send("Mention the user you want to mute.");
-      } else if (!mentionUser.hasPermission('ADMINISTRATOR'))  {
+      } else if (!mentionUser.hasPermission('ADMINISTRATOR')) {
         mentionUser.voice.setMute(true, `Muted by ${message.author.username}`);
         message.reply(`${mentionUser.displayName} to been muted.`);
       }
@@ -262,7 +266,7 @@ client.on('message', message => {
     }
   }
   //unmute
-  else if (message.content.startsWith(`${BOT_PREFIX}unmute`)) {
+  else if (message.content.startsWith(`${this.BOT_PREFIX}unmute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mention the user you want to remove.");
@@ -312,8 +316,23 @@ else if (message.content == BOT_PREFIX + 'clearnote') {
     }
   }*/
 
+  /*//new A FINIR
+  if (message.content.startsWith(`${this.BOT_PREFIX}new`)) {
+    if (!message.member.hasPermission('MANAGE_GUILD')) {
+      message.channel.send(notAuthorizedEmbedMessage);
+    } else if (!args[1] || args[1] == help) {
+      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say]\n**Example**\n`$new Hi! Hello! \n$new time {now}`'));
+     } else if (!args[2]) {
+      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say]\n**Example**\n`$new Hi! Hello! \n$new time {now}`'));
+    } else if (!args[3]) {
+      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say]\n**Example**\n`$new Hi! Hello! \n$new time {now}`'));
+    } else {
+      new custom_command({name : args[1], prefix : args})
+    }
+  }*/
+
   //ping
-  if (message.content == `${BOT_PREFIX}ping`) {
+  if (message.content == `${this.BOT_PREFIX}ping`) {
     if (!message.member.hasPermission('ADMINISTRATOR') || message.author.id !== '754229847206658160') {
       console.log(message.author.username + "tried to use the ping command at:" + message.createdAt);
       message.channel.send(notAuthorizedEmbedMessage);
@@ -372,8 +391,8 @@ client.on('presenceUpdate', onlineMember => {
 });
 */
 
-client.on('error', err =>{
+client.on('error', err => {
   client.channels.cache.get('864953618938986516').send(' <@754229847206658160> I have encountered an error :' + err);
-  client.user.setActivity('Crashed', {type : 'CUSTOM_STATUS'});
+  client.user.setActivity('Crashed', { type: 'CUSTOM_STATUS' });
   console.log(err);
 });

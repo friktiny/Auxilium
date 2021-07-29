@@ -1,6 +1,6 @@
 {
     "name": "auxilium_discord_bot",
-    "version": "5.5.9",
+    "version": "5.7.0",
     "description": "Auxilum is a future multi-purpose bot !",
     "main": "index.js",
     "scripts": {
