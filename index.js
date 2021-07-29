@@ -20,7 +20,7 @@ client.on('guildMemberAdd', newMember => {
 });
 
 client.on('message', message => {
-  if (!message.content.startsWith(BOT_PREFIX) || message.author) return;
+  if (!message.content.startsWith(BOT_PREFIX) || message.author.bot) return;
   if (message.channel.type == 'dm' && message.author.id !== '754229847206658160') return;
   let mentionUser = message.mentions.members.first();
   let mentionChannel = message.mentions.channels.first();
