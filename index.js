@@ -1,94 +1,94 @@
-const Discord = require("discord.js");
-const client = new Discord.Client();
-const BOT_TOKEN = process.env.BOT_TOKEN;
+const Discord = require("discord.js") ;
+const client = new Discord.Client() ;
+const BOT_TOKEN = process.env.BOT_TOKEN ;
 client.login(BOT_TOKEN).then(() => {
   client.on('ready', () => {
-   console.log('Auxilium est opérationnel !');
-   client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** est opérationnel !');
-   client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type: 'PLAYING'});
-   }); 
-});
+   console.log('Auxilium is operational !') ;
+   client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** is up and running!') ;
+   client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', {type : 'PLAYING'}) ;
+   }) ; 
+}) ;
 
-const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
-const BOT_NAME = process.env.BOT_NAME;
-const BOT_ID = process.env.BOT_ID;
-const BOT_PREFIX = process.env.BOT_PREFIX;
+const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR ;
+const BOT_NAME = process.env.BOT_NAME ;
+const BOT_ID = process.env.BOT_ID ;
+const BOT_PREFIX = process.env.BOT_PREFIX ;
 
 client.on('guildMemberAdd', newMember => {
- // const Joueur = newMember.
-  newMember.roles.cache.get('864898505470377984').guild.members.cache.get(newMember.id).roles.add();
-});
+ // const Player = newMember.
+  newMember.roles.cache.get('864898505470377984').guild.members.cache.get(newMember.id).roles.add() ;
+}) ;
 
 client.on('message', message => {
-  if (!message.content.startsWith(BOT_PREFIX) || message.author.bot) return;
-  if (message.channel.type == 'dm' && message.author.id !== '754229847206658160') return;
-  let mentionUser = message.mentions.members.first();
-  let mentionChannel = message.mentions.channels.first();
-  let mentionRole = message.mentions.roles.first();
-  let args = message.content.split(' ');
-  var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('Tu ne peux pas utiliser cette commande <@' + message.author.id + '> !');
-  const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Erreur lors de l'envoi du message.**");
-  const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Message envoyé avec succès !**');
-  //var notes = [];
-  //let endMessage = args[0] + args[1];
+  if (!message.content.startsWith(BOT_PREFIX) || message.author.bot) return ;
+  if (message.channel.type == 'dm' && message.author.id !== '754229847206658160') return ;
+  let mentionUser = message.mentions.members.first() ;
+  let mentionChannel = message.mentions.channels.first() ;
+  let mentionRole = message.mentions.roles.first() ;
+  let args = message.content.split(' ') ;
+  var notAuthorizedEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription('You cannot use this command <@' + message.author.id + '>!') ;
+  const ErrorEmbedMessage = new Discord.MessageEmbed().setColor('#FF0000').setDescription(":x: **Error while sending the message.**") ;
+  const SuccessEmbedMessage = new Discord.MessageEmbed().setColor('#008000').setDescription(':white_check_mark: **Successfully sent message!**') ;
+  //var notes = [] ;
+  const endMessage = args ;
   
   // help
   if (message.content == BOT_PREFIX + 'help') {
-  const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Commande').setAuthor('Add me to your server !', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({name : 'Utilités', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*\nsuggestion *[argument]*', inline : true}, {name : 'Modération', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Préfixe du bot :',value :  BOT_PREFIX, inline : false}).addField('*argument*', 'Valeur obligatoire', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
+  const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Command').setAuthor('Add me to your server!', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot'). addFields({name : 'Utilities', value : 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*nsuggestion *[argument]*', inline : true}, {name: 'Moderation', value : 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline : true}, {name : 'Bot prefix :',value : BOT_PREFIX, inline : false}). addField('*argument*', 'Required value', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub!') ;
       message.author.createDM().then(channel => {
-      channel.send(helpEmbedMessage);
-       message.delete();
-      console.log('Commande HELP utilisée par ' + message.author.username + ' à : ' + message.createdAt);
+      channel.send(helpEmbedMessage) ;
+       message.delete() ;
+      console.log('HELP command used by ' + message.author.username + ' to : ' + message.createdAt);
        }).catch(err => {
-       message.channel.send("Échec de l'envoi du DM ou de la console d' éxécution : " + err);
-       });
-  };
+       message.channel.send("Failed to send DM or run console: " + err) ;
+       }) ;
+  } ;
   
-  //Utilities commands
+  // Utility commands
   
   //setPrefix [argument]
   if (message.content.startsWith(`${BOT_PREFIX}setPrefix`)) {
     if (args[1] == undefined) {
-    message.reply('préfixe non défini !');
+    message.reply('undefined prefix!') ;
   } else if (message.member.hasPermission('MANAGE_GUILD')) {
-      let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Préfixe changé !').setDescription('Le préfixe `' + BOT_PREFIX + '` a été remplacé par `' + args[1] + '` !' );
-      message.channel.send(setPrefixEmbedMessage);
-      BOT_PREFIX = args[1];
+      let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Prefix changed!').setDescription('The prefix `' + BOT_PREFIX + '` has been replaced by `' + args[1] + '` !' ) ;
+      message.channel.send(setPrefixEmbedMessage) ;
+      BOT_PREFIX = args[1] ;
     } else {
-      message.channel.send(notAuthorizedEmbedMessage);
+      message.channel.send(notAuthorizedEmbedMessage) ;
     }
   }
   
   //setName [argument]
   if (message.content.startsWith(`${BOT_PREFIX}setName`)) {
     if (args[1] == undefined) {
-      message.reply('nom non défini !');
+      message.reply('name not defined!') ;
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
-      let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Pseudo changé !').setDescription('Le pseudo `' + LOCAL_BOT_NAME + '` a été remplacé par `' + args[1] + '` !' );
-      message.guild.me.setNickname(args[1]);
-      message.channel.send(setNameEmbedMessage);
+      let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname changed!').setDescription('The nickname `' + LOCAL_BOT_NAME + '` has been replaced by `' + args[1] + '` !' ) ;
+      message.guild.me.setNickname(args[1]) ;
+      message.channel.send(setNameEmbedMessage) ;
     } else {
-      message.channel.send(notAuthorizedEmbedMessage);
+      message.channel.send(notAuthorizedEmbedMessage) ;
     }
   }
 
   //avatar [argument]
   if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
     if (mentionUser == undefined) {
-      var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Ton avatar :').setImage(message.author.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
-      message.channel.send(avatarMySelfEmbedMessage);
+      var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Your avatar:').setImage(message.author.displayAvatarURL({format : 'png', size : 2048, dynamic : true})).setColor('#00ffff') ;
+      message.channel.send(avatarMySelfEmbedMessage) ;
     } else {
-      var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`L'avatar de ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff');
-      message.channel.send(avatarYourSelfEmbedMessage);
+      var avatarYourSelfEmbedMessage = new Discord.MessageEmbed().setTitle(`The avatar of ${mentionUser.displayName} :`).setImage(message.guild.members.cache.find(user => user.user.username === mentionUser.displayName).user.displayAvatarURL({format: 'png', size: 2048, dynamic: true})).setColor('#00ffff') ;
+      message.channel.send(avatarYourSelfEmbedMessage) ;
     }
   }
-  
-  //getInfosUser [mention]
+
+//getInfosUser [mention]
   if (message.content.startsWith(`${BOT_PREFIX}getInfosUser`)) {
     if (mentionUser == undefined) {
-      message.channel.send('De qui veux-tu avoir les informations ?');
+      message.channel.send('Who do you want the information from?');
     } else {
-      let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.user.tag).setDescription(`Inscrit depuis le ${mentionUser.user.createdAt}`).addField('Dernier message publié :', mentionUser.lastMessage, true).addField('Activitée :', mentionUser.user.presence, true).addField('Est dans le serveur depuis :', mentionUser.joinedAt, false);
+      let infosUserEmbedMessage = new Discord.MessageEmbed().setColor(mentionUser.displayHexColor).setImage(mentionUser.user.displayAvatarURL({format : 'png', size : 256, dynamic : true})).setTitle(mentionUser.user.tag). setDescription(`Inscribed since ${mentionUser.user.createdAt}`).addField('Last message published:', mentionUser.lastMessage, true).addField('Activated:', mentionUser.user.presence, true).addField('Has been in the server since:', mentionUser.joinedAt, false);
       message.channel.send(infosUserEmbedMessage);
     }
   }
@@ -99,7 +99,7 @@ client.on('message', message => {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
       if (args[1] === undefined) {
-        let cleanSyntaxEmbedMessage = new Discord.MessageEmbed().setTitle('Clean Syntaxe').setColor('LIGHTGREEN').setDescription("**Syntaxe** :\n`$clean [nombre de message à supprimer dans CE salon]\n$clean [nombre de message à supprimer dans CE salon] [Mention d'utilisateur/de salon]`\n**Exemple** :\n`$clean 26 @Nat76\nclean 12 #général`");
+        let cleanSyntaxEmbedMessage = new Discord.MessageEmbed().setTitle('Clean Syntax').setColor('LIGHTGREEN'). setDescription("**Syntax** :\n`$clean [number of messages to be deleted in THIS channel]\n$clean [number of messages to be deleted in THIS channel] [User/Show Mention]``Example** :\n`$clean 26 @Nat76\nclean 12 #general`");
         message.channel.send(cleanSyntaxEmbedMessage);
       } else {
         message.delete();
@@ -114,7 +114,7 @@ client.on('message', message => {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
       message.channel.send(notAuthorizedEmbedMessage);
     } else if (args[1] == undefined) {
-      let cleanAllSyntaxEmbedMessage = new Discord.MessageEmbed().setTitle('CleanAll Syntaxe').setColor('LIGHTGREEN').setDescription('**Syntaxe** : \n`$cleanAll [Mention d\'utilisateur/de salon/de rôle]`\n**Exemple** : \n`$cleanAll @Nat76\n$cleanAll #général\n$cleanAll @Admin`');
+      let cleanAllSyntaxEmbedMessage = new Discord.MessageEmbed().setTitle('CleanAll Syntax').setColor('LIGHTGREEN').setDescription('**Syntax** : \n`$cleanAll [User/channel/role mention]`\n**Example**: \n`$cleanAll @Nat76\n$cleanAll #general\n$cleanAll @Admin`');
       message.channel.send(cleanAllSyntaxEmbedMessage);
     } else {
       message.delete();
@@ -127,36 +127,36 @@ client.on('message', message => {
   
   //getInfosServer
   if (message.content == `${BOT_PREFIX}getInfosServer`) {
-    let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('A été crée le ' + message.guild.createdAt + ` par **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({name : 'Région', value : message.guild.region, inline : true}, {name : 'Nombre de membres', value : message.guild.memberCount.toString(), inline : true}).setImage(message.guild.bannerURL({format : "png", size : 512}));
+    let infoserverEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('Was created on ' + message.guild.createdAt + ` by **${message.guild.owner.user.tag}**`).setThumbnail(message.guild. iconURL()).addFields({name: 'Region', value: message.guild.region, inline: true}, {name: 'Number of members', value: message.guild.memberCount.toString(), inline: true}).setImage(message.guild.bannerURL({format: "png", size: 512}));
     message.channel.send(infosServerEmbedMessage);
   }
   
-  //iduser [mention]
+  //iduser[mention]
   if (message.content.startsWith(BOT_PREFIX + 'iduser')) {
     if (mentionUser == undefined) {
-      message.channel.send('Utilisateur non ou mal mentionné');
+      message.channel.send('User not or wrongly mentioned');
     } else {
-      console.log(message.author.username + ' a utilisé la commande iduser pour ' + mentionUser.displayName + ' à : ' + message.createdAt);
-      message.channel.send("L'id de **" + mentionUser.displayName + "** est :__" + mentionUser.id + "__.");
+      console.log(message.author.username + ' used iduser command for ' + mentionUser.displayName + ' to : ' + message.createdAt);
+      message.channel.send("The id of **" + mentionUser.displayName + "** is :__" + mentionUser.id + "__.");
     };
     };
     
     //idchannel [Mention]
     if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
       if (mentionChannel == undefined) {
-        message.channel.send('Salon non ou mal mentionné');
+        message.channel.send('Channel not or incorrectly mentioned');
       } else {
-        console.log(message.author.username + " a demandé l'ID de " + mentionChannel.name + ' à : ' + message.createdAt);
-      message.channel.send("L'id de **" + mentionChannel.name + "** est : __" + mentionChannel.id + '__ .');
+        console.log(message.author.username + 'asked for the ID of' + mentionChannel.name + 'at : ' + message.createdAt);
+      message.channel.send("The id of **" + mentionChannel.name + "** is : __" + mentionChannel.id + '__ .');
     };
   };
   
   //suggestion [argument]
   if (message.content.startsWith(BOT_PREFIX + 'suggestion')) { 
     if (args == undefined) {
-      message.reply("tu n'as pas noté ta suggestion, note la avec un espace après suggestion et des tirets entre chaque mot. Comme ceci :\n\n" + BOT_PREFIX + "suggestion Voici-ma-suggestion.");
+      message.reply("you didn't write down your suggestion, write it down with a space after suggestion and dashes between each word. Like this:\n" + BOT_PREFIX + "suggestion Here-my-suggestion.");
     } else {
-      console.log(message.author.username + ' a une suggestion : ' + args[1] + ' à : ' + message.createdAt);
+      console.log(message.author.username + ' has a suggestion: ' + args + ' to : ' + message.createdAt);
       message.channel.send(SuccessEmbedMessage);
     };
   };
@@ -169,39 +169,49 @@ client.on('message', message => {
     if (message.author.id !== '754229847206658160') {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
-      message.channel.send('Redémarrage...');
-      console.log('Client redémmaré à ' + message.createdAt);
+      message.channel.send('Restart...');
+      console.log('Client restarted at ' + message.createdAt);
       client.destroy();
       client.login(BOT_TOKEN);
       message.delete();
-      message.channel.send('Bot redémmaré avec succès !');
+      message.channel.send('Bot successfully restarted!');
     };
   };
-  
-  //ban
+
+//annoucement [channel] [message]
+  if (message.content.startsWith(`${BOT_PREFIX}annoucement`)) {
+    if (!message.member.hasPermission('MENTION_EVERYONE')) {
+      message.channel.send(notAuthorizedEmbedMessage);
+    } else if (args[1] == undefined) {
+      let annoucementSyntaxEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Annoucement');
+    }
+  }
+
+
+//ban [user]
   if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
     if(message.member.hasPermission('BAN_MEMBERS')) {
       if(mentionUser == undefined) {
-        message.channel.send("Mentionne l'utilisateur que tu veux bannir.");
+        message.channel.send("Mention the user you want to ban.");
       } else if(args[2] == undefined){
-        message.channel.send('Durée du banissement manquante.');
+        message.channel.send('Missing ban duration.');
       } else if (ars[3] == undefined) {
-        message.channel.send('Raison manquante.')
-      } else if (mentionUser.bannable) {
+        message.channel.send('Missing reason.')
+      } else if (mentionUser.banable) {
           mentionUser.ban({days : args[2], reason : args[3,4,5,6,7,8,9,10,11,12,13]}).then(user => {
-            message.channel.send(`@${mentionUser.displayName} a été banni.`);
+            message.channel.send(`@${mentionUser.displayName} has been banned.`);
             message.delete();
             message.channel.lastMessage.delete({timeout : 5000});
-            message.guild.channels.cache.find(ChannelName => ChannelName.name == 'général').send(`${mentionUser.displayName} a joué avec le feu, et s'est brulé.`);
+            message.guild.channels.cache.find(ChannelName => ChannelName.name == 'general').send(`${mentionUser.displayName} played with fire, and got burned.`);
             user.createDM().then(channel => {
-              channel.send('Tu as été banni du serveur ' + message.guild.name + ' : ' + args[3,4,5,6,7,8,9,10,11,12,13] + '\nTu pourras réintégrer le serveur dans ' + args[2] + ' jours.');
+              channel.send('You have been banned from the server' + message.guild.name + ': ' + args[3,4,5,6,7,8,9,10,11,12,13] + 'You will be able to rejoin the server in ' + args[2] + ' days');
             });
           }).catch(err => {
-            message.channel.send(':x: **Erreur**, ' + err);
+            message.channel.send(':x: **Error**, ' + err);
             console.log(err);
           });
         } else {
-          message.reply(`tu ne peux pas bannir ${mentionUser.displayName} !`);
+          message.reply(`you can't ban ${mentionUser.displayName} !`);
         }
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
@@ -211,23 +221,23 @@ client.on('message', message => {
   else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
     if (message.member.hasPermission('KICK_MEMBERS')) {
       if (mentionUser == undefined) {
-        message.channel.send("Mentionne l'utilisateur que tu veux exclure.");
+        message.channel.send("Mention the user you want to kick.");
       } else if(args[2] == undefined) {
-        message.channel.send('Raison manquante.');
+        message.channel.send('Missing reason.');
       } else if (mentionUser.kickable) {
         mentionUser.kick(args[2,3,4,5,6,7,8,9,10,11,12]).then(user => {
-          message.channel.send(`${mentionUser.displayName} a été exclu.`);
+          message.channel.send(`${mentionUser.displayName} has been excluded.`);
           message.delete();
           message.channel.lastMessage.delete({timeout : 5000});
-          message.guild.channels.cache.find(ChannelName => ChannelName.name == 'général').send(`${mentionUser.displayName} s'est trop penché par la fenètre et est tombé !\nHeuresement qu'il avait son parachute !`);
+          message.guild.channels.cache.find(ChannelName => ChannelName.name == 'general').send(`${mentionUser.displayName} leaned too far out the window and fell!`)
           user.createDM().then(channel => {
-            channel.send(`Tu as été banni du serveur ${message.guild.name} : ${args[2,3,4,5,6,7,8,9,10,11,12]}\nTu peux revenir quand tu veux !\n||Il faut juste que tu trouves un (autre) lien…||`);
+            channel.send(`You\'ve been banned from the server ${message.guild.name}: ${args[2,3,4,5,6,7,8,9,10,11,12]} You can come back anytime!`);
           });
         }).catch(err => {
-          message.channel.send(':x: **Erreur**, ' + err);
+          message.channel.send(':x: **Error**, ' + err);
         });
       } else {
-        message.reply(`tu ne peux pas bannir ${mentionUser.displayName}`);
+        message.reply(`you can't ban ${mentionUser.displayName}`);
       }
     }
   }
@@ -235,10 +245,10 @@ client.on('message', message => {
   else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser = undefined) {
-        message.channel.send("Mentionne l'utilisateur que tu veux rendre muet.");
+        message.channel.send("Mention the user you want to mute.");
       } else /*if (!mentionUser.hasPermission('ADMINISTRATOR')) */{
           mentionUser.voice.setMute(true, `Muted by ${message.author.username}`);
-          message.reply(`${mentionUser.displayName} à été mute.`);
+          message.reply(`${mentionUser.displayName} to been muted.`);
       } 
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
@@ -248,7 +258,7 @@ client.on('message', message => {
   else if (message.content.startsWith(`${BOT_PREFIX}unmute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser == undefined) {
-        message.channel.send("Mentionne l'utilisateur que tu veux démute.");
+        message.channel.send("Mention the user you want to remove.");
       } else {
         mentionUser.voice.setMute(false, 'Unmuted');
       }
@@ -265,10 +275,10 @@ client.on('message', message => {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
       if (args[1] == undefined) {
-        message.channel.send('Ajoute ta note en argument de ta commande.')
+        message.channel.send('Add your note as an argument to your command.')
       } else {
         notes.push(args[1]);
-        message.channel.send('Note ajoutée !');
+        message.channel.send('Note added !');
       }
     }
   }/*readnote [argument]else if (message.content == BOT_PREFIX + 'readnote') {
@@ -276,47 +286,48 @@ client.on('message', message => {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
       if (args[1] == null) {
-        message.reply('laquelle ?');
+        message.reply('which?');
       } else {/*
         if (notes[parseFloat(args[1])] != undefined) {
-        message.reply('La ' + args[1] + "e note n'existe pas !");
+        message.reply('The ' + args[1] + "e note does not exist!");
         } else {
-          message.channel.send('Voici :' + notes[parseFloat(args[1])]);
+          message.channel.send('This is:' + notes[parseFloat(args[1])]);
         /*}
        }
     }
-  }/*clearnoteelse if (message.content == BOT_PREFIX + 'clearnote') {
-    if(message.author.id !=='754229847206658160') {
+  }/*clearnote
+else if (message.content == BOT_PREFIX + 'clearnote') {
+    if(message.author.id !== '754229847206658160') {
      message.channel.send(notAuthorizedEmbedMessage);
     } else {
       notes = [];
-      message.channel.send('Toutes les notes ont été supprimés !');
+      message.channel.send('All notes have been deleted!');
     }
   }*/
-  
-  //ping
+
+//ping
   if (message.content == `${BOT_PREFIX}ping`) {
-     if (!message.member.hasPermission('ADMINISTRATOR')|| message.author.id !== '754229847206658160') {
-      console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
+     if (!message.member.hasPermission('ADMINISTRATOR') || message.author.id !== '754229847206658160') {
+      console.log(message.author.username + "tried to use the ping command at:" + message.createdAt);
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
       const timeTaken = Date.now() - message.createdTimestamp;
       message.react('🏓');
       message.channel.send('pong !\n`' + timeTaken + 'ms`');
-    }} else {console.log('Nope')};
+    }};
   
 });
   
 
 client.on('guildCreate', server => {
-  let welcomeEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTBLUE').setAuthor(server.owner.user.username, server.owner.user.displayAvatarURL).setTitle('**Merci d\'avoir ajouté Auxilium dans' + server.name + ' !** :tada::tada::partying_face:').setDescription('Auxilium est un robot Discord qui prends en charge de nombreuses fonctionnalités : modération, amusement, aide à la gestion du serveur et quelques commandes utilitaires.\nVous pouvez voir la liste des commandes avec la commande `help`.\n Le préfixe par défaut d\'Auxilium est `$` mais vous (||du moins les admins||) peuvent changer le préfixe à tous moment en utilisant la commande `setPrefix [votre préfixe ici]`.\nVoilà ! Je vais me faire discret maintenant...').setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
+  let welcomeEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTBLUE').setAuthor(server.owner.user.username, server.owner.user.displayAvatarURL).setTitle('**Thank you for adding Auxilium to' + server.name + '! ** :tada::tada::partying_face:').setDescription('Auxilium is a Discord bot that supports many features: moderation, fun, help with server management and some utility commands. \You can see the list of commands with the command `help`.The default prefix of Auxilium is `$` but you (||at least the admins||) can change the prefix at any time by using the command `setPrefix [your favorite prefix here].}. I\'ll be quiet now...').setFooter('For this bot, thanks to Discord.js, Heroku and GitHub !');
   server.systemChannel.send(welcomeEmbedMessage);
   server.systemChannel.createInvite({temporary : false, maxAge : 0, maxUses : 1, unique : true, reason : 'Verification for Nat76#3958'}).then(invite => {
-    console.log(`Serveur rejoint ! Nom : ${server.name}, nombre de membres : ${server.memberCount}, invitation : https://discord.gg/${invite.code} , propiétaire : ${server.owner.user.tag}.`);
+    console.log(`Server joined ! Name: ${server.name}, number of members: ${server.memberCount}, invite: https://discord.gg/${invite.code} owner: ${server.owner.user.tag}.`);
   }).catch(err => {
-server.owner.createDM().then(dm => dm.send('Erreur, je n\'ai pas réussi à me connecter totalement au serveur, réessayez => https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot'));
+server.owner.createDM().then(dm => dm.send('Error, I was unable to connect fully to the server, try again => https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot'));
     server.leave();
-    console.log('Serveur quitté : ' + err);
+    console.log('Server left: ' + err);
   });
 });
 
@@ -326,25 +337,25 @@ client.on('presenceUpdate', onlineMember => {
     var min=1; 
     var max=5;  
     var random = Math.floor(Math.random() * (max - min)) + min; 
-    onlineMember.user.createDM().then(dm =>  {
+    onlineMember.user.createDM().then(dm => {
       switch (random) {
         case 1 :
-          dm.send('Heyy, comment ça roule ? :hugging:;');
+          dm.send('Heyy, how's it going? :hugging:;');
           break;
         
         case 2 : 
-           dm.send('Dis donc t\'étais où ?\nTu nous as manqué !:smile:');
+           dm.send('Hey, where have you been ? we missed you :smile:');
           break;
 
         case 3 : 
-           dm.send(`Eh <@${onlineMember.user.id}> ! Un T-Rex nous a attaqués pendant ton absence ! :innocent:`);
+           dm.send(`Eh <@${onlineMember.user.id}> ! A T-Rex attacked us while you were gone! :innocent:`);
           break;
 
-        case 4 : 
-           dm.send('Alors comme ça tu te déconnectes sans mon autorisation ? Si tu refais ça tu sera privé de Discord pendant deux semaines ! :yum:');
+        box 4 : 
+           dm.send('So you're logging out without my permission? If you do that again you'll be banned from Discord for two weeks! :yum:');
           break
         default:
-          console.error(`[FAILED TO SEND MESSAGE IN DM CHANNEL] Je n\'ai pas réussi à acceullir ${onlineMember.user.tag}...`);
+          console.error(`[FAILED TO SEND MESSAGE IN DM CHANNEL] I was unable to access ${onlineMember.user.tag}...`);
           break;
       };
     });
@@ -352,3 +363,4 @@ client.on('presenceUpdate', onlineMember => {
 
 });
 */
+
