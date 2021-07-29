@@ -16,7 +16,7 @@ const BOT_PREFIX = process.env.BOT_PREFIX;
 
 client.on('guildMemberAdd', newMember => {
  // const Joueur = newMember.
-  newMember.roles.add('864898505470377984');
+  newMember.roles.cache.get('864898505470377984').guild.members.cache.get(newMember.id).roles.add();
 });
 
 client.on('message', message => {
@@ -295,7 +295,7 @@ client.on('message', message => {
   }*/
   
   //ping
-  if (message.content == BOT_PREFIX + 'ping') {
+  if (message.content == `${BOT_PREFIX}ping`) {
      if (!message.member.hasPermission('ADMINISTRATOR')|| message.author.id !== '754229847206658160') {
       console.log(message.author.username + " a essayé d'utiliser la commande ping à :" + message.createdAt);
       message.channel.send(notAuthorizedEmbedMessage);
@@ -303,9 +303,9 @@ client.on('message', message => {
       const timeTaken = Date.now() - message.createdTimestamp;
       message.react('🏓');
       message.channel.send('pong !\n`' + timeTaken + 'ms`');
-    }};
+    }} else {console.log('Nope')};
   
-    });
+});
   
 
 client.on('guildCreate', server => {
