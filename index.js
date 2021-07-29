@@ -200,7 +200,7 @@ client.on('message', message => {
   }
 
   //ban [user]
-  if (message.content.startsWith(`${ths.BOT_PREFIX}ban`)) {
+  if (message.content.startsWith(`${this.BOT_PREFIX}ban`)) {
     if (message.member.hasPermission('BAN_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mention the user you want to ban.");
