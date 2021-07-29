@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const BOT_TOKEN = process.env.BOT_TOKEN;
 client.login(BOT_TOKEN).then(() => {
   client.on('ready', () => {
-    console.log('Auxilium is operational !');
+    console.log('Auxilium is ready !');
     client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** is up and running!');
     client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', { type: 'PLAYING' });
   });
@@ -154,7 +154,7 @@ client.on('message', message => {
     if (args == undefined) {
       message.reply("you didn't write down your suggestion, write it down with a space after suggestion and dashes between each word. Like this:\n" + BOT_PREFIX + "suggestion Here-my-suggestion.");
     } else {
-      console.log(message.author.username + ' has a suggestion: ' + args + ' to : ' + message.createdAt);
+      console.log(message.author.username + ' has a suggestion: ' + args[1-4000] + ' to : ' + message.createdAt);
       message.channel.send(SuccessEmbedMessage);
     };
   };
@@ -167,7 +167,7 @@ client.on('message', message => {
     if (message.author.id !== '754229847206658160') {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
-      message.channel.send('Restart...');
+      message.channel.send('Restarting...');
       console.log('Client restarted at ' + message.createdAt);
       client.destroy();
       client.login(BOT_TOKEN);
@@ -187,7 +187,7 @@ client.on('message', message => {
       message.reply('you didn\'t specify the content of your message');
     } else {
       message.delete();
-      client.channels.cache.get(mentionChannel.id).send(args[2-4002]);
+      client.channels.cache.get(mentionChannel.id).send(args[2-102]);
       message.author.createDM().then(dm => {
         dm.send(new Discord.MessageEmbed().setDescription(':white_check_mark: **Message successfully sent!**'));
       });
@@ -371,3 +371,9 @@ client.on('presenceUpdate', onlineMember => {
 
 });
 */
+
+client.on('error', err =>{
+  client.channels.cache.get('864953618938986516').send(' <@754229847206658160> I have encountered an error :' + err);
+  client.user.setActivity('Crashed', {type : 'CUSTOM_STATUS'});
+  console.log(err);
+});
