@@ -127,7 +127,7 @@ client.on('message', message => {
 
   //getInfosServer
   if (message.content == `${BOT_PREFIX}getInfosServer`) {
-    let infoserverEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('Was created on ' + message.guild.createdAt + ` by **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({ name: 'Region', value: message.guild.region, inline: true }, { name: 'Number of members', value: message.guild.memberCount.toString(), inline: true }).setImage(message.guild.bannerURL({ format: "png", size: 512 }));
+    let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('LIGHTGREEN').setTitle(message.guild.name).setDescription('Was created on ' + message.guild.createdAt + ` by **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({ name: 'Region', value: message.guild.region, inline: true }, { name: 'Number of members', value: message.guild.memberCount.toString(), inline: true }).setImage(message.guild.bannerURL({ format: "png", size: 512 }));
     message.channel.send(infosServerEmbedMessage);
   }
 
