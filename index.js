@@ -33,7 +33,7 @@ client.on('message', message => {
   //var notes = [] ;
   const Message = args;
   let muted_member = [];
-  let custom_command = [command, execution];
+  //let custom_command = [command, execution];
 
   // help
   if (message.content == this.BOT_PREFIX + 'help') {
