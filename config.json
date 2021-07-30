@@ -1,0 +1,13 @@
+{
+    "commands": {
+        "ping": {
+            "name": "ping",
+            "return_value": "pong !",
+            "allowed_roles": "ADMINISTRATOR",
+            "allowed_users_id" : "754229847206658160",
+            "dm" : false,
+            "react" : true,
+            "react_value" : "🏓"
+        }
+    }
+}
