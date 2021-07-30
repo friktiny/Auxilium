@@ -4,7 +4,7 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 client.login(BOT_TOKEN).then(() => {
   client.on('ready', () => {
     console.log('Auxilium is ready !');
-    client.channels.cache.get('864953618938986516').send('**' + BOT_NAME + '** is up and running!');
+    client.channels.cache.get('864953618938986516').send(/*'**' + BOT_NAME + '** is up and running!'*/'I\'ll be quiet now...');
     client.user.setActivity(' Need help ? | ' + BOT_PREFIX + 'help', { type: 'PLAYING' });
   });
 });
@@ -191,6 +191,10 @@ client.on('message', message => {
     if (args[1] == undefined) {
       message.reply('name not defined!');
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
+      if (args[1 == 'default']) {
+        message.guild.me.setNickname(BOT_NAME);
+        let setDefaultNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname given by default!').setDescription(`The nickname ${message.guild.me.nickname}`);
+      }
       let setNameEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Nickname changed!').setDescription('The nickname `' + message.guild.me.nickname + '` has been replaced by `' + args[1] + '` !');
       message.guild.me.setNickname(args[1]);
       message.channel.send(setNameEmbedMessage);
@@ -392,7 +396,9 @@ client.on('presenceUpdate', onlineMember => {
 */
 
 client.on('error', err => {
-  client.channels.cache.get('864953618938986516').send(' <@754229847206658160> I have encountered an error :' + err);
-  client.user.setActivity('Crashed', { type: 'CUSTOM_STATUS' });
-  console.log(err);
+  if (err) {
+    client.channels.cache.get('864953618938986516').send(' <@754229847206658160> I have encountered an error :' + err);
+    client.user.setActivity('Crashed', { type: 'CUSTOM_STATUS' });
+    console.log(err);
+  }
 });
