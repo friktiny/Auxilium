@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const client = new Discord.Client();
+const config = require("./config.json");
 const BOT_TOKEN = process.env.BOT_TOKEN;
 client.login(BOT_TOKEN).then(() => {
   client.on('ready', () => {
@@ -13,10 +14,9 @@ const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
 const BOT_PREFIX = process.env.BOT_PREFIX;
-this.BOT_PREFIX = '$';
+this.BOT_PREFIX = config.local_prefix;
 
 client.on('guildMemberAdd', newMember => {
-  // const Player = newMember.
   newMember.roles.cache.get('864898505470377984').guild.members.cache.get(newMember.id).roles.add();
 });
 
@@ -180,7 +180,7 @@ client.on('message', message => {
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
       let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Prefix changed!').setDescription('The prefix `' + this.BOT_PREFIX + '` has been replaced by `' + args[1] + '` !');
       message.channel.send(setPrefixEmbedMessage);
-      this.BOT_PREFIX = args[1];
+    config.local_prefix.push(args[1]);
       client.user.setActivity('Need help ? |' + this.BOT_PREFIX + 'help', {type : 'PLAYING'});
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
@@ -337,14 +337,16 @@ else if (message.content == BOT_PREFIX + 'clearnote') {
   }*/
 
   //ping
-  if (message.content == `${this.BOT_PREFIX}ping`) {
-    if (!message.member.hasPermission('ADMINISTRATOR') || message.author.id !== '754229847206658160') {
+  if (message.content == this.BOT_PREFIX + config.commands.ping.name) {
+    if (!message.member.hasPermission(config.commands.ping.allowed_roles) || message.author.id !== config.commands.ping.allowed_users_id) {
       console.log(message.author.username + "tried to use the ping command at:" + message.createdAt);
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
       const timeTaken = Date.now() - message.createdTimestamp;
-      message.react('🏓');
-      message.channel.send('pong !\n`' + timeTaken + 'ms`');
+      if (config.commands.ping.react == true) {
+        message.react(config.commands.ping.react_value);
+      }
+      message.channel.send( config.commands.ping.return_value + '\n`' + timeTaken + 'ms`');
     }
   };
 
