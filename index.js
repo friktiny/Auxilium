@@ -181,6 +181,7 @@ client.on('message', message => {
       let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Prefix changed!').setDescription('The prefix `' + this.BOT_PREFIX + '` has been replaced by `' + args[1] + '` !');
       message.channel.send(setPrefixEmbedMessage);
       this.BOT_PREFIX = args[1];
+      client.user.setActivity('Need help ? |' + this.BOT_PREFIX + 'help', {type : 'PLAYING'});
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
     }
