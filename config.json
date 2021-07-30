@@ -1,13 +1,21 @@
 {
     "commands": {
+        "custom": [
+            "name",
+            "return_value",
+            "allowed_roles",
+            "allowed_users_id",
+            "dm",
+            "dm_value"
+        ],
         "ping": {
             "name": "ping",
             "return_value": "pong !",
             "allowed_roles": "ADMINISTRATOR",
-            "allowed_users_id" : "754229847206658160",
-            "dm" : false,
-            "react" : true,
-            "react_value" : "🏓"
+            "allowed_users_id": "754229847206658160",
+            "dm": false,
+            "dm_value": ""
         }
-    }
+    },
+    "prefix": "$"
 }

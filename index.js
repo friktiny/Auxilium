@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const fs = require("fs");
 const client = new Discord.Client();
 const config = require("./config.json");
 const BOT_TOKEN = process.env.BOT_TOKEN;
@@ -13,8 +14,7 @@ client.login(BOT_TOKEN).then(() => {
 const BOT_DISCRIMINATOR = process.env.BOT_DISCRIMINATOR;
 const BOT_NAME = process.env.BOT_NAME;
 const BOT_ID = process.env.BOT_ID;
-const BOT_PREFIX = process.env.BOT_PREFIX;
-this.BOT_PREFIX = config.local_prefix;
+const BOT_PREFIX = config.prefix;
 
 client.on('guildMemberAdd', newMember => {
   newMember.roles.cache.get('864898505470377984').guild.members.cache.get(newMember.id).roles.add();
@@ -36,8 +36,8 @@ client.on('message', message => {
   //let custom_command = [command, execution];
 
   // help
-  if (message.content == this.BOT_PREFIX + 'help') {
-    const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Command').setAuthor('Add me to your server!', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({ name: 'Utilities', value: 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*nsuggestion *[argument]*', inline: true }, { name: 'Moderation', value: 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline: true }, { name: '(Default) Bot prefix :', value: '`(' + BOT_PREFIX + ') ' + this.BOT_PREFIX, inline: false }).addField('*argument*', 'Required value', false).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub!');
+  if (message.content == BOT_PREFIX + 'help') {
+    const helpEmbedMessage = new Discord.MessageEmbed().setColor('#0099ff').setTitle('Help Command').setAuthor('Add me to your server!', 'https://cdn.discordapp.com/avatars/864899752007827478/485367df72aa7e7241f97567aecb4f11.png?size=128', 'https://discord.com/api/oauth2/authorize?client_id=864899752007827478&permissions=8&scope=bot').addFields({ name: 'Utilities', value: 'iduser [mention]\nidchannel [mention]\navatar [mention]\ngetinfos *[mention]*nsuggestion *[argument]*', inline: true }, { name: 'Moderation', value: 'mute *[mention]*\nkick *[mention]*\nban *[mention]*', inline: true }, {name :'*argument*', value : 'Required value', inline : false}, { name: 'Bot prefix :', value: BOT_PREFIX, inline: false }).setTimestamp().setFooter('For this bot, thanks to Discord.js, Heroku and GitHub!');
     message.author.createDM().then(channel => {
       channel.send(helpEmbedMessage);
       message.delete();
@@ -51,7 +51,7 @@ client.on('message', message => {
 
 
   //avatar [argument]
-  if (message.content.startsWith(this.BOT_PREFIX + 'avatar')) {
+  if (message.content.startsWith(BOT_PREFIX + 'avatar')) {
     if (mentionUser == undefined) {
       var avatarMySelfEmbedMessage = new Discord.MessageEmbed().setTitle('Your avatar:').setImage(message.author.displayAvatarURL({ format: 'png', size: 2048, dynamic: true })).setColor('#00ffff');
       message.channel.send(avatarMySelfEmbedMessage);
@@ -62,7 +62,7 @@ client.on('message', message => {
   }
 
   //getInfosUser [mention]
-  if (message.content.startsWith(`${this.BOT_PREFIX}getInfosUser`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}getInfosUser`)) {
     if (mentionUser == undefined) {
       message.channel.send('Who do you want the information from?');
     } else {
@@ -72,7 +72,7 @@ client.on('message', message => {
   }
 
   //clean
-  if (message.content.startsWith(`${this.BOT_PREFIX}clean`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}clean`)) {
     if (!message.member.hasPermission('MANAGE_MESSAGES')) {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
@@ -104,7 +104,7 @@ client.on('message', message => {
   }*/
 
   //getInfosServer
-  if (message.content == `${this.BOT_PREFIX}getInfosServer`) {
+  if (message.content == `${BOT_PREFIX}getInfosServer`) {
     let infosServerEmbedMessage = new Discord.MessageEmbed().setColor('#3af24b').setTitle(message.guild.name).setDescription('Was created on ' + message.guild.createdAt + ` by **${message.guild.owner.user.tag}**`).setThumbnail(message.guild.iconURL()).addFields({ name: 'Region', value: message.guild.region, inline: true }, { name: 'Number of members', value: message.guild.memberCount.toString(), inline: true }, { name: 'MFA Level', value: message.guild.mfaLevel, inline: true }, { name: 'General channel', value: message.guild.systemChannel, inline: false }).setImage(message.guild.bannerURL({ format: "png", size: 512 }));
     message.channel.send(infosServerEmbedMessage);
   }
@@ -119,7 +119,7 @@ client.on('message', message => {
   };
 
   //idchannel [Mention]
-  if (message.content.startsWith(this.BOT_PREFIX + 'idchannel')) {
+  if (message.content.startsWith(BOT_PREFIX + 'idchannel')) {
     if (mentionChannel == undefined) {
       message.channel.send('Channel not or incorrectly mentioned');
     } else {
@@ -128,7 +128,7 @@ client.on('message', message => {
   };
 
   //suggestion [argument]
-  if (message.content.startsWith(this.BOT_PREFIX + 'suggestion')) {
+  if (message.content.startsWith(BOT_PREFIX + 'suggestion')) {
     if (args == undefined) {
       message.reply("you didn't write down your suggestion, write it down with a space after suggestion and dashes between each word. Like this:\n" + this.BOT_PREFIX + "suggestion Here's-my-suggestion.");
     } else {
@@ -141,7 +141,7 @@ client.on('message', message => {
   //Moderation commands
 
   //restart
-  if (message.content == this.BOT_PREFIX + 'restart') {
+  if (message.content == BOT_PREFIX + 'restart') {
     if (message.author.id !== '754229847206658160') {
       message.channel.send(notAuthorizedEmbedMessage);
     } else {
@@ -155,7 +155,7 @@ client.on('message', message => {
   };
 
   //announcement [channel] [message]
-  if (message.content.startsWith(`${this.BOT_PREFIX}announcement`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}announcement`)) {
     if (!message.member.hasPermission('MENTION_EVERYONE')) {
       message.channel.send(notAuthorizedEmbedMessage);
     } else if (args[1] == undefined) {
@@ -173,22 +173,22 @@ client.on('message', message => {
     }
   }
 
-  //setPrefix [argument]
+  /*//setPrefix [argument]
   if (message.content.startsWith(`${this.BOT_PREFIX}setPrefix`)) {
     if (args[1] == undefined) {
       message.reply('undefined prefix!');
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
       let setPrefixEmbedMessage = new Discord.MessageEmbed().setColor('BLACK').setTitle('Prefix changed!').setDescription('The prefix `' + this.BOT_PREFIX + '` has been replaced by `' + args[1] + '` !');
       message.channel.send(setPrefixEmbedMessage);
-    config.local_prefix.push(args[1]);
-      client.user.setActivity('Need help ? |' + this.BOT_PREFIX + 'help', {type : 'PLAYING'});
+      config.local_prefix.push(args[1]);
+      client.user.setActivity('Need help ? |' + this.BOT_PREFIX + 'help', { type: 'PLAYING' });
     } else {
       message.channel.send(notAuthorizedEmbedMessage);
     }
-  }
+  }*/
 
   //setName [argument]
-  if (message.content.startsWith(`${this.BOT_PREFIX}setName`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}setName`)) {
     if (args[1] == undefined) {
       message.reply('name not defined!');
     } else if (message.member.hasPermission('MANAGE_GUILD')) {
@@ -205,7 +205,7 @@ client.on('message', message => {
   }
 
   //ban [user]
-  if (message.content.startsWith(`${this.BOT_PREFIX}ban`)) {
+  if (message.content.startsWith(`${BOT_PREFIX}ban`)) {
     if (message.member.hasPermission('BAN_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mention the user you want to ban.");
@@ -234,7 +234,7 @@ client.on('message', message => {
     }
   }
   //kick
-  else if (message.content.startsWith(`${this.BOT_PREFIX}kick`)) {
+  else if (message.content.startsWith(`${BOT_PREFIX}kick`)) {
     if (message.member.hasPermission('KICK_MEMBERS')) {
       if (mentionUser == undefined) {
         message.channel.send("Mention the user you want to kick.");
@@ -258,7 +258,7 @@ client.on('message', message => {
     }
   }
   //mute
-  else if (message.content.startsWith(`${this.BOT_PREFIX}mute`)) {
+  else if (message.content.startsWith(`${BOT_PREFIX}mute`)) {
     if (message.member.hasPermission('MUTE_MEMBERS')) {
       if (mentionUser = undefined) {
         message.channel.send("Mention the user you want to mute.");
@@ -321,23 +321,26 @@ else if (message.content == BOT_PREFIX + 'clearnote') {
     }
   }*/
 
-  /*//new A FINIR
-  if (message.content.startsWith(`${this.BOT_PREFIX}new`)) {
+  //new A FINIR
+  if (message.content.startsWith(`${BOT_PREFIX}new`)) {
     if (!message.member.hasPermission('MANAGE_GUILD')) {
       message.channel.send(notAuthorizedEmbedMessage);
-    } else if (!args[1] || args[1] == help) {
-      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say]\n**Example**\n`$new Hi! Hello! \n$new time {now}`'));
-     } else if (!args[2]) {
-      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say]\n**Example**\n`$new Hi! Hello! \n$new time {now}`'));
+    } else if (!args[1] || args[1 == 'help']) {
+      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say] [if the answer is in dm(y/n)]\n**Example**\n`$new Hi! Hello! y\n$new time {now} n`'));
+    } else if (!args[2]) {
+      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say] [if the answer is in dm(y/n)]\n**Example**\n`$new Hi! Hello! y\n$new time {now} n`'));
     } else if (!args[3]) {
-      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say]\n**Example**\n`$new Hi! Hello! \n$new time {now}`'));
-    } else {
-      new custom_command({name : args[1], prefix : args})
+      message.channel.send(new Discord.MessageEmbed().setColor('BLACK').setTitle('New Syntax').setDescription('__This command add a custom command.__\n**Syntax**\n`$new [command][that\'s I\'ll return/say] [if the answer is in dm(y/n)]\n**Example**\n`$new Hi! Hello! y\n$new time {now} n`'));
+    } else if(args[1 == String] && args[2 == String] && args[3 == 'y' || 'n']) {
+      fs.writeFile('config.json', config.commands.custom.push(args[1], args[2], args[3]), (err) => {
+        if (err) throw err;
+        console.log('Added a custom command')
+      });
     }
-  }*/
+  }
 
   //ping
-  if (message.content == this.BOT_PREFIX + config.commands.ping.name) {
+  if (message.content == `${BOT_PREFIX}${config.commands.ping.name}`) {
     if (!message.member.hasPermission(config.commands.ping.allowed_roles) || message.author.id !== config.commands.ping.allowed_users_id) {
       console.log(message.author.username + "tried to use the ping command at:" + message.createdAt);
       message.channel.send(notAuthorizedEmbedMessage);
@@ -346,7 +349,7 @@ else if (message.content == BOT_PREFIX + 'clearnote') {
       if (config.commands.ping.react == true) {
         message.react(config.commands.ping.react_value);
       }
-      message.channel.send( config.commands.ping.return_value + '\n`' + timeTaken + 'ms`');
+      message.channel.send(config.commands.ping.return_value + '\n`' + timeTaken + 'ms`');
     }
   };
 
