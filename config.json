@@ -1,21 +1,23 @@
 {
+    "bot_infos": {
+        "prefix": "$",
+        "bot_name": "Auxilium",
+        "bot_id": "868938936758710312",
+        "bot_discriminator": "3225"
+    },
     "commands": {
-        "custom": [
-            "name",
-            "return_value",
-            "allowed_roles",
-            "allowed_users_id",
-            "dm",
-            "dm_value"
-        ],
+        "custom": {
+         
+        },
         "ping": {
             "name": "ping",
             "return_value": "pong !",
             "allowed_roles": "ADMINISTRATOR",
             "allowed_users_id": "754229847206658160",
             "dm": false,
-            "dm_value": ""
+            "dm_value": "",
+            "react" : true,
+            "react_value" : "🏓"
         }
-    },
-    "prefix": "$"
+    }
 }
