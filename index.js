@@ -9,8 +9,8 @@ client.login(BOT_TOKEN/*token.token*/).then(() => {
     client.user.presence.activities = ['Need help ? | ' + BOT_PREFIX + 'help', ['I\'m in maintenance for about', 'minutes', 'hour(s)', 'I am in maintenance for a while...']];
     client.user.setStatus('online');
     console.log(`Auxilium is ${client.user.presence.status} !`);
-    client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !\nActivity : ` + '`' + 'PLAYING' + ' ' + client.user.presence.activities[0] + '`.')).catch(err => console.error('Error Encountered :' + err));
     client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
+    client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !\nActivity : ` + '`' + 'PLAYING' + ' ' + client.user.presence.activities[0] + '`.')).catch(err => console.error('Error Encountered :' + err));
   });
 });
 
@@ -71,13 +71,13 @@ client.on('message', message => {
     } else if (!args) {
       client.user.setStatus('invisible');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !`)).catch(err => console.error('Error Encountered :' + err));
       client.user.setActivity(undefined);
+      client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !`)).catch(err => console.error('Error Encountered :' + err));
     } else {
       client.user.setStatus('invisible');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !`)).catch(err => console.error('Error Encountered :' + err));
       client.user.setActivity(undefined);
+      client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !`)).catch(err => console.error('Error Encountered :' + err));
       setTimeout(() => {
         client.user.setStatus('online');
         console.log(`Auxilium is ${client.user.presence.status} !`);
