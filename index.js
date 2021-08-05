@@ -7,12 +7,10 @@ const BOT_TOKEN = process.env.BOT_TOKEN;
 client.login(BOT_TOKEN/*token.token*/).then(() => {
   client.on('ready', () => {
     client.user.presence.activities = ['Need help ? | ' + BOT_PREFIX + 'help', ['I\'m in maintenance for about', 'minutes', 'hour(s)', 'I am in maintenance for a while...']];
-    client.user.presence.activities[0].type = 'PLAYING';
-    client.user.presence.activities[1].type = 'STREAMING';
     client.user.setStatus('online');
     console.log(`Auxilium is ${client.user.presence.status} !`);
     client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !\nActivity : ` + '`' + client.user.presence.activities[0].type + ' ' + client.user.presence.activities[0] + '`.')).catch(err => console.error('Error Encountered :' + err));
-    client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type });
+    client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
   });
 });
 
@@ -83,7 +81,7 @@ client.on('message', message => {
       setTimeout(() => {
         client.user.setStatus('online');
         console.log(`Auxilium is ${client.user.presence.status} !`);
-        client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type.toString() });
+        client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
         client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[0] + '`')).catch(err => console.error('Error Encountered :' + err));
       }, args[0] * 10000);
     }
@@ -95,12 +93,12 @@ client.on('message', message => {
     } else if (!args) {
       client.user.setStatus('online');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type.toString() });
+      client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
       client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[0] + '`')).catch(err => console.error('Error Encountered :' + err));
     } else {
       client.user.setStatus('online');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type.toString() });
+      client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
       client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[0] + '`')).catch(err => console.error('Error Encountered :' + err));
       setTimeout(() => {
         client.user.setStatus('invisible');
@@ -117,28 +115,28 @@ client.on('message', message => {
     } else if (!args) {
       client.user.setStatus('dnd');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.user.setActivity(client.user.presence.activities[1[3]], { type: client.user.presence.activities[1[3]].type.toString() });
+      client.user.setActivity(client.user.presence.activities[1[3]], { type: 'STREAMING' });
       client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[1[3]] + '`')).catch(err => console.error('Error Encountered :' + err));
     } else if (args[2] === 'h') {
       client.user.setStatus('dnd');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.user.setActivity(client.user.presence.activities[1[3]], { type: client.user.presence.activities[1[3]].type.toString() });
+      client.user.setActivity(client.user.presence.activities[1[3]], { type: 'STREAMING' });
       client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[1[3]] + '`')).catch(err => console.error('Error Encountered :' + err));
       setTimeout(() => {
         client.user.setStatus('online');
         console.log(`Auxilium is ${client.user.presence.status} !`);
-        client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type.toString() });
+        client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
         client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[0] + '`')).catch(err => console.error('Error Encountered :' + err));
       }, args[0] * 100000);
     } else if (args[2] === 'm') {
       client.user.setStatus('dnd');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.user.setActivity(client.user.presence.activities[1[3]], { type: client.user.presence.activities[1[3]].type.toString() });
+      client.user.setActivity(client.user.presence.activities[1[3]], { type: 'STREAMING' });
       client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[1[3]] + '`')).catch(err => console.error('Error Encountered :' + err));
       setTimeout(() => {
         client.user.setStatus('online');
         console.log(`Auxilium is ${client.user.presence.status} !`);
-        client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type.toString() });
+        client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
         client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[0] + '`')).catch(err => console.error('Error Encountered :' + err));
       }, args[0] * 10000);
     } else if (!args[2] === 'm' || !args[2] === 'h') {
@@ -207,8 +205,11 @@ client.on('message', message => {
     if (args == undefined) {
       message.reply("you didn't write down your suggestion, write it down with a space after suggestion and dashes between each word. Like this:\n" + BOT_PREFIX + "suggestion Here's-my-suggestion.");
     } else {
-      console.log(message.author.tag + ' has a suggestion: ' + message.content.slice(11, -0) + ' at : ' + message.createdAt);
-      message.channel.send(SuccessEmbedMessage);
+      fs.appendFile('suggestion.txt', message.author.tag + ' ' + message.guild.name + ' ' + message.createdAt + '\n' + message.content.slice(11, -0) + '\n\n', err => {
+        console.log(message.author.tag + ' has a suggestion: ' + message.content.slice(11, -0) + ' at : ' + message.createdAt);
+        if (err) message.channel.send(ErrorEmbedMessage);
+        else message.channel.send(SuccessEmbedMessage);
+      })
     };
   };
 
@@ -226,7 +227,7 @@ client.on('message', message => {
       client.login(BOT_TOKEN);
       client.user.setStatus('online');
       console.log(`Auxilium is ${client.user.presence.status} !`);
-      client.user.setActivity(client.user.presence.activities[0], { type: client.user.presence.activities[0].type.toString() });
+      client.user.setActivity(client.user.presence.activities[0], { type: 'PLAYING' });
       client.users.cache.find(user => user.tag === 'TryHackMe#3958').createDM().then(dm => dm.send(`Now, I'm ${client.user.presence.status} !` + '\nActivity : `' + client.user.presence.activities[0] + '`')).catch(err => console.error('Error Encountered :' + err));
       message.delete();
       message.channel.send('Bot successfully restarted!');
